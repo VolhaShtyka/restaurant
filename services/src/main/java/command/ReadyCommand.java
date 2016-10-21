@@ -21,7 +21,7 @@ public class ReadyCommand implements ActionCommand {
 		String page = null;
 		HttpSession session = request.getSession(true);
 		ResourceBundle property = ResourceBundle
-				.getBundle("properties/" + Locale.getDefault().getLanguage().toUpperCase(), Locale.getDefault());
+				.getBundle(Locale.getDefault().getLanguage().toUpperCase(), Locale.getDefault());
 		UserDaoImpl clientdao = new UserDaoImpl();
 		List<User> clients = clientdao.findAll();
 		OrderDaoImpl order = new OrderDaoImpl();
