@@ -11,7 +11,7 @@ public class AllowanceCommand implements ActionCommand {
 		String page = null;
 		HttpSession session = request.getSession();
 		//double sumOrder = Integer.parseInt((String) session.getAttribute("sum"));
-		request.setAttribute("sum", 1000*105);
+		request.setAttribute("sum", 100*105);
 		page = ConfigurationManager.getProperty("path.page.admin");
 		return page;
 	}
