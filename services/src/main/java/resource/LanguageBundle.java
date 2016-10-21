@@ -9,8 +9,8 @@ public class LanguageBundle {
 	public static String resBundle;
 	public static void addLanguage(String fileURL, HttpServletRequest request){
 		Properties properties = new Properties();
-		InputStream in = LanguageBundle.class.getClassLoader().getResourceAsStream("properties/" + fileURL);
-		resBundle = "C:/Users/home/IdeaProjects/restaurant/services/src/main/java/properties/" + Locale.getDefault().getLanguage().toUpperCase();
+		InputStream in = LanguageBundle.class.getClassLoader().getResourceAsStream(fileURL);
+		resBundle = Locale.getDefault().getLanguage().toUpperCase();
 		try {
 			InputStreamReader reader = new InputStreamReader(in, "UTF-8");
 			properties.load(reader);

@@ -19,7 +19,7 @@ public class CountCommand implements ActionCommand {
 
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		String page = null;
-		ResourceBundle property = ResourceBundle.getBundle("properties/" + Locale.getDefault().getLanguage().toUpperCase(), Locale.getDefault());
+		ResourceBundle property = ResourceBundle.getBundle(Locale.getDefault().getLanguage().toUpperCase(), Locale.getDefault());
 		HttpSession session = request.getSession(true);
 		UserDaoImpl clientdao = new UserDaoImpl();
 		List <User> clients = clientdao.findAll();
