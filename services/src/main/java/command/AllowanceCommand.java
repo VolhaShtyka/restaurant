@@ -10,8 +10,8 @@ public class AllowanceCommand implements ActionCommand {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		String page = null;
 		HttpSession session = request.getSession();
-		double sumOrder = Integer.parseInt((String) session.getAttribute("sum"));
-		request.setAttribute("sum", sumOrder/100*105);
+		//double sumOrder = Integer.parseInt((String) session.getAttribute("sum"));
+		request.setAttribute("sum", 100*105);
 		page = ConfigurationManager.getProperty("path.page.admin");
 		return page;
 	}
