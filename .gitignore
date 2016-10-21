@@ -13,3 +13,14 @@ bin
 out
 /build
 /target/
+/.idea/*
+/.git/*
+/.settings/*
+/.settings/*.xml
+/build/*
+/build/*.properties
+/build/*.sql
+.gitignore
+/dao/.settings/*
+/services/.settings/*
+/web/.settings/*

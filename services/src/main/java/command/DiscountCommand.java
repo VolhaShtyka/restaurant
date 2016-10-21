@@ -10,8 +10,8 @@ public class DiscountCommand implements ActionCommand {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		String page = null;
 		HttpSession session = request.getSession();
-		double sumOrder = Integer.parseInt((String) session.getAttribute("sum"));
-		request.setAttribute("sum", sumOrder/100*95);	
+		//double sumOrder = Integer.parseInt((String) session.getAttribute("sum"));
+		request.setAttribute("sum", 1005);
 		page = ConfigurationManager.getProperty("path.page.admin");
 		return page;
 	}
