@@ -6,6 +6,7 @@ import com.shtyka.entity.Order;
 import com.shtyka.entity.StatusMeal;
 import com.shtyka.entity.User;
 import com.shtyka.jdbc.DataSource;
+import com.shtyka.util.ManagerSQL;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
@@ -13,16 +14,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class OrderDaoImpl implements OrderDao{
-    public static final String SQL_SELECT_ALL_ORDER = "SELECT * FROM `order`;";
-    public static final String SQL_DELETE_ALL_ORDER = "DELETE FROM `restoraut`.`order`;";
-    public static final String SQL_DELETE_ORDER = "DELETE FROM `restoraut`.`order` WHERE order_id=";
-    public static final String SQL_UPDATE_ALL_ORDER = "UPDATE `restoraut`.`order` SET `status_order`= ?;";
-    public static final String SQL_CREATE_NEW_ORDER = "INSERT INTO `restoraut`.`order` (`client_id`, `status_order`, `menu_id`) VALUES (?, ?, ?);";
+    private static final String SQL_SELECT_ALL_ORDER = ManagerSQL.getProperty("SQL_SELECT_ALL_ORDER");
+    private static final String SQL_DELETE_ALL_ORDER = ManagerSQL.getProperty("SQL_DELETE_ALL_ORDER");
+    private static final String SQL_DELETE_ORDER = ManagerSQL.getProperty("SQL_DELETE_ORDER");
+    private static final String SQL_UPDATE_ALL_ORDER = ManagerSQL.getProperty("SQL_UPDATE_ALL_ORDER");
+    private static final String SQL_CREATE_NEW_ORDER = ManagerSQL.getProperty("SQL_CREATE_NEW_ORDER");
 
-    public boolean create(Object entity) throws SQLException {
+    public boolean create(Object entity) {
         return false;
     }
 
@@ -72,7 +72,6 @@ public class OrderDaoImpl implements OrderDao{
 
 
     public List<Order> findOrderClient(int id) {
-        //ResourceBundle property = ResourceBundle.getBundle("properties/" + Locale.getDefault().getLanguage().toUpperCase(), Locale.getDefault());
         String SQL_SELECT_ALL_MEALNAME = "SELECT `order`.*,menu"+Locale.getDefault().getLanguage()+".meal_name FROM menu"+Locale.getDefault().getLanguage()+" INNER JOIN `order` ON menu"+ Locale.getDefault().getLanguage()+".menu_id=`order`.menu_id INNER JOIN `client`ON `order`.client_id = `client`.client_id WHERE `client`.client_id = ";
         List<Order> orders = new ArrayList<Order>();
         Connection cn = null;

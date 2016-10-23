@@ -7,7 +7,8 @@ public class User {
     private String name;
     private int tableNumber;
     private String roleName;
-    public User(){};
+    public User(){}
+
     public User(String name, String password, String roleName){
         this.password = password;
         this.name=name;

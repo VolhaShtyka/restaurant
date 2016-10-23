@@ -5,8 +5,8 @@ import com.shtyka.dao.daoIlml.UserDaoImpl;
 import com.shtyka.entity.Order;
 import com.shtyka.entity.StatusMeal;
 import com.shtyka.entity.User;
-import resource.ConfigurationManager;
-import resource.MessageManager;
+import serviceManager.ConfigurationManager;
+import serviceManager.MessageManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,14 +26,14 @@ public class ReadyCommand implements ActionCommand {
 		List<User> clients = clientdao.findAll();
 		OrderDaoImpl order = new OrderDaoImpl();
 		List<Order> orders = order.findAll();
-		for (int i = 0; i < orders.size(); i++) {
-			if (orders.get(i).getStatusOrder().equals(property.getString(StatusMeal.CHEKED.name()))) {
-				request.setAttribute("errorCookingMessage", MessageManager.getProperty("message.cookingerror"));
-				page = ConfigurationManager.getProperty("path.page.main");
-			} else {
-				order.update(StatusMeal.READY.name());
-			}
-		}
+        for (Order order1 : orders) {
+            if (order1.getStatusOrder().equals(property.getString(StatusMeal.CHEKED.name()))) {
+                request.setAttribute("errorCookingMessage", MessageManager.getProperty("message.cookingerror"));
+                page = ConfigurationManager.getProperty("path.page.main");
+            } else {
+                order.update(StatusMeal.READY.name());
+            }
+        }
 		orders = order.findOrderClient(clients.get(0).getId());
 		session.setAttribute("orders", orders);
 		page = ConfigurationManager.getProperty("path.page.admin");

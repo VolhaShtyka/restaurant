@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body link="red" vlink="#b0cd2e" alink="#b0cd2e">
-	<h1><font color="#b0cd2e">${pageAdmin}</font></h1>
+	<h1><span style="color: #b0cd2e; ">${pageAdmin}</span></h1>
 	<table class="rwd-table" >
 		<tr>
 			<th>${infoUser}</th>

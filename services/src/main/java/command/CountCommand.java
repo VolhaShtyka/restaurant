@@ -5,8 +5,8 @@ import com.shtyka.dao.daoIlml.UserDaoImpl;
 import com.shtyka.entity.Order;
 import com.shtyka.entity.StatusMeal;
 import com.shtyka.entity.User;
-import resource.ConfigurationManager;
-import resource.MessageManager;
+import serviceManager.ConfigurationManager;
+import serviceManager.MessageManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 public class CountCommand implements ActionCommand {	
 
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-		String page = null;
+		String page;
 		ResourceBundle property = ResourceBundle.getBundle(Locale.getDefault().getLanguage().toUpperCase(), Locale.getDefault());
 		HttpSession session = request.getSession(true);
 		UserDaoImpl clientdao = new UserDaoImpl();
@@ -30,14 +30,14 @@ public class CountCommand implements ActionCommand {
 		 * if the order has not yet paid the
 		 * amount you want to deduce pay
 		 */
-		for (int i = 0; i < orders.size(); i++) {
-			if (orders.get(i).getStatusOrder().equals(property.getString(StatusMeal.CHEKED.name()))) {
-				request.setAttribute("errorCookingCheked", MessageManager.getProperty("message.errorCookingCheked"));
-				page = ConfigurationManager.getProperty("path.page.admin");
-			} else {
-				order.update(StatusMeal.CHEKED.name());	
-			}
-		}			
+        for (Order order1 : orders) {
+            if (order1.getStatusOrder().equals(property.getString(StatusMeal.CHEKED.name()))) {
+                request.setAttribute("errorCookingCheked", MessageManager.getProperty("message.errorCookingCheked"));
+                page = ConfigurationManager.getProperty("path.page.admin");
+            } else {
+                order.update(StatusMeal.CHEKED.name());
+            }
+        }
 		orders = order.findOrderClient(clients.get(0).getId());	
 		session.setAttribute("orders", orders);	
 		session.setAttribute("sum", "");

@@ -2,9 +2,9 @@ package controllers;
 
 import command.ActionCommand;
 import commandFactory.ActionFactory;
-import resource.ConfigurationManager;
-import resource.LanguageBundle;
-import resource.MessageManager;
+import serviceManager.ConfigurationManager;
+import serviceManager.LanguageBundle;
+import serviceManager.MessageManager;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,10 +32,10 @@ public class ServletRestoraut extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+	private void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException {
 		request.setCharacterEncoding("UTF-8");
-		String page = null;
+		String page;
 		//define came from jsp command and call processing method
 		ActionFactory client = new ActionFactory();
 		ActionCommand command = client.defineCommand(request);

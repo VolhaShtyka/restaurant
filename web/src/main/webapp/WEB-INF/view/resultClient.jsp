@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-	<h1><font color="#b0cd2e">${pageClient}</font></h1>
+	<h1><span style="color: #b0cd2e; ">${pageClient}</span></h1>
 	<a href="ServletRestoraut?command=logout">"${logout}"</a>
 	<table class="rwd-table">
 		<tr>

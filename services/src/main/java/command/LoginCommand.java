@@ -1,6 +1,6 @@
 package command;
-import resource.ConfigurationManager;
-import resource.MessageManager;
+import serviceManager.ConfigurationManager;
+import serviceManager.MessageManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +13,7 @@ public class LoginCommand implements ActionCommand {
 			HttpServletResponse response) throws SQLException {
 		String amdinProfile = "administrator";
 		String userProfile = "user";
-		String page = null;
+		String page;
 		String login = request.getParameter(PARAM_NAME_LOGIN);
 		String password = request.getParameter(PARAM_NAME_PASSWORD);
 		if (LoginLogic.checkLoginAdmin(login, password).equals(amdinProfile)) {

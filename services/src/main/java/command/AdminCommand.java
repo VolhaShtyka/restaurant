@@ -4,7 +4,7 @@ import com.shtyka.dao.daoIlml.OrderDaoImpl;
 import com.shtyka.dao.daoIlml.UserDaoImpl;
 import com.shtyka.entity.Order;
 import com.shtyka.entity.User;
-import resource.ConfigurationManager;
+import serviceManager.ConfigurationManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

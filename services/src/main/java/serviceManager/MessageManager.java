@@ -1,4 +1,4 @@
-package resource;
+package serviceManager;
 import java.util.ResourceBundle;
 public class MessageManager {
 	private final static ResourceBundle resourceBundle = ResourceBundle.getBundle("messages");

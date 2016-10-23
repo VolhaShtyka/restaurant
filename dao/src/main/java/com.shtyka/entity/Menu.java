@@ -1,8 +1,5 @@
 package com.shtyka.entity;
 
-/**
- * Created by home on 18.10.2016.
- */
 public class Menu {
     private int menuId;
     private String mealName;

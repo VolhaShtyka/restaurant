@@ -1,7 +1,7 @@
 package command;
 import com.shtyka.dao.daoIlml.OrderDaoImpl;
 import com.shtyka.entity.Order;
-import resource.ConfigurationManager;
+import serviceManager.ConfigurationManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +11,7 @@ import java.util.List;
 public class ClearByIdOrderCommand implements ActionCommand {
 
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-		String page = null;
+		String page;
 		HttpSession session = request.getSession();
 		OrderDaoImpl order = new OrderDaoImpl();
 		List<Order> orders = order.findAll();

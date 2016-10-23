@@ -2,9 +2,9 @@ package command;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-public class LoginMd5 {
+class LoginMd5 {
 	public static String md5Custom(String st) {
-		MessageDigest messageDigest = null;
+		MessageDigest messageDigest;
 		byte[] digest = new byte[0];
 		try {
 			messageDigest = MessageDigest.getInstance("MD5");

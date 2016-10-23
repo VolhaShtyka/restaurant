@@ -1,3 +1,4 @@
+/*noinspection CssUnknownTarget*/
 @import "http://fonts.googleapis.com/css?family=Montserrat:300,400,700";
 
 .rwd-table {
@@ -62,8 +63,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
 	color: #444;
-	background: #eee;
-	background-image: url(rest.jpg);
+    background: #eee url(rest.jpg);
 }
 
 h1 {

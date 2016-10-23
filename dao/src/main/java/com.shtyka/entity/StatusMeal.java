@@ -14,7 +14,7 @@ public enum StatusMeal {
         propert = ResourceBundle.getBundle("RU", Locale.getDefault());
         return propert.getString(valueEnum);
     }
-    public void setValueEnum(String valueEnum) {
+    private void setValueEnum(String valueEnum) {
         this.valueEnum = valueEnum;
     }
 }

@@ -1,14 +1,15 @@
 package commandFactory;
-import javax.servlet.http.HttpServletRequest;
 import command.ActionCommand;
 import command.EmptyCommand;
 import commandEnum.CommandEnum;
-import resource.MessageManager;
+import serviceManager.MessageManager;
+
+import javax.servlet.http.HttpServletRequest;
 public class ActionFactory {
 	public ActionCommand defineCommand(HttpServletRequest request) {
 		ActionCommand current = new EmptyCommand();
 		String action = request.getParameter("command");
-		if (action == null || action.isEmpty()) {
+		if (action == null) {
 			return current;
 		}
 		try {

@@ -3,6 +3,8 @@ package com.shtyka.dao.daoIlml;
 import com.shtyka.dao.MenuDao;
 import com.shtyka.entity.Menu;
 import com.shtyka.jdbc.DataSource;
+import com.shtyka.jdbc.JdbcTemplate;
+import com.shtyka.util.ManagerSQL;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
@@ -13,56 +15,37 @@ import java.util.Locale;
 
 public class MenuDaoImpl implements MenuDao {
 
-    public static final String SQL_SELECT_ALL_MENU = "SELECT * FROM menu";
-    public Menu read(int id) {
-        return null;
-    }
+    private static final String SQL_SELECT_ALL_MENU = ManagerSQL.getProperty("SQL_SELECT_ALL_MENURU");
+    private static final String SQL_SELECT_ALL_MENUEN = ManagerSQL.getProperty("SQL_SELECT_ALL_MENUEN");
+    private static final String SQL_CREATE_NEW_MENURU = ManagerSQL.getProperty("SQL_CREATE_NEW_MENURU");
+    private static final String SQL_CREATE_NEW_MENUEN = ManagerSQL.getProperty("SQL_CREATE_NEW_MENUEN");
 
-    public boolean delete(Menu entity) {
-        return false;
-    }
-    public Menu findEntityById(int id) {
-        Connection cn = null;
-        Statement st = null;
+    public Menu findEntityById(int id) throws SQLException {
+        JdbcTemplate jc = new JdbcTemplate();
         Menu menu = new Menu();
-        try {
-            cn = DataSource.getInstance().getConnection();
-            st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery(SQL_SELECT_ALL_MENU+Locale.getDefault().getLanguage());
+        ResultSet resultSet;
+        if(Locale.getDefault().equals("RU")) {
+            resultSet = JdbcTemplate.st.executeQuery(SQL_SELECT_ALL_MENU);
+        }else{
+            resultSet = JdbcTemplate.st.executeQuery(SQL_SELECT_ALL_MENUEN);
+        }
             while (resultSet.next()) {
                 if (resultSet.getInt("menu_id") == id) {
                     menu.setMealName(resultSet.getString("meal_name"));
-                    menu.setMenuId(id);
+                    menu.setMenuId(resultSet.getInt("menu_id"));
                     menu.setPrice(resultSet.getInt("price"));
                     menu.setWeight(resultSet.getInt("weight"));
                 }
             }
             resultSet.close();
-        } catch (SQLException e) {
-            System.out.println("Request or table failed.");
-        } catch (IOException e) {
-            System.out.println("IOException e: ClientDAO");
-        } catch (PropertyVetoException e) {
-            System.out.println("PropertyVetoException e: ClientDAO");
-        } finally {
-            try {
-                st.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.out.println("Request or table failed.");
-            }
-        }
+        JdbcTemplate.closeJdbcTemplate();
         return menu;
     }
 
-    public List<Menu> findAll() {
+    public List <Menu> findAll() throws SQLException {
         List<Menu> menu = new ArrayList<Menu>();
-        Connection cn = null;
-        Statement st = null;
-        try {
-            cn = DataSource.getInstance().getConnection();
-            st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery(SQL_SELECT_ALL_MENU+ Locale.getDefault().getLanguage());
+        JdbcTemplate jc = new JdbcTemplate();
+            ResultSet resultSet = JdbcTemplate.st.executeQuery(SQL_SELECT_ALL_MENU);
             while (resultSet.next()) {
                 Menu menuClient = new Menu();
                 menuClient.setMenuId(resultSet.getInt("menu_id"));
@@ -72,43 +55,18 @@ public class MenuDaoImpl implements MenuDao {
                 menu.add(menuClient);
             }
             resultSet.close();
-        } catch (SQLException e) {
-            System.out.println("Request or table failed.");
-        } catch (IOException e) {
-            System.out.println("IOException e: ClientDAO");
-        } catch (PropertyVetoException e) {
-            System.out.println("PropertyVetoException e: ClientDAO");
-        } finally {
-            try {
-                st.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.out.println("Request or table failed.");
-            }
-        }
+        jc.closeJdbcTemplate();
         return menu;
     }
 
-    public Menu findByLogin(String login) {
-        return null;
-    }
-
-    public int countOrder(MenuDao t) {
-        return 0;
-    }
-
-    public boolean deleteById(int id) {
+    public boolean delete(Menu menu) {
         return false;
     }
 
-    public Menu findById(int id) {
-        Connection cn = null;
-        Statement st = null;
+    public Menu read(int id) throws SQLException {
         Menu menu = new Menu();
-        try {
-            cn = DataSource.getInstance().getConnection();
-            st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery(SQL_SELECT_ALL_MENU+Locale.getDefault().getLanguage());
+        JdbcTemplate jc = new JdbcTemplate();
+            ResultSet resultSet = JdbcTemplate.st.executeQuery(SQL_SELECT_ALL_MENU);
             while (resultSet.next()) {
                 if (resultSet.getInt("menu_id") == id) {
                     menu.setMealName(resultSet.getString("meal_name"));
@@ -118,30 +76,11 @@ public class MenuDaoImpl implements MenuDao {
                 }
             }
             resultSet.close();
-        } catch (SQLException e) {
-            System.out.println("Request or table failed.");
-        } catch (IOException e) {
-            System.out.println("IOException e: ClientDAO");
-        } catch (PropertyVetoException e) {
-            System.out.println("PropertyVetoException e: ClientDAO");
-        } finally {
-            try {
-                st.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.out.println("Request or table failed.");
-            }
-        }
+        jc.closeJdbcTemplate();
         return menu;
     }
 
-    public boolean delete(MenuDao entity) {
-        return false;
-    }
-
-    public boolean create(Menu menu) throws SQLException {
-        String SQL_CREATE_NEW_MENURU = "INSERT INTO `restoraut`.`menuru` (`meal_name`, `price`, `weight`) VALUES (?, ?, ?);";
-        String SQL_CREATE_NEW_MENUEN = "INSERT INTO `restoraut`.`menuen` (`meal_name`, `price`, `weight`) VALUES (?, ?, ?);";
+    public boolean create(Menu menu) {
         Connection cn = null;
         PreparedStatement st = null;
         PreparedStatement stat = null;
@@ -165,8 +104,13 @@ public class MenuDaoImpl implements MenuDao {
         } catch (PropertyVetoException e) {
             System.out.println("PropertyVetoException e: ClientDAO");
         } finally {
-            st.close();
-            stat.close();
+            try {
+                st.close();
+                stat.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
             try {
                 cn.close();
             } catch (SQLException e) {
@@ -179,5 +123,9 @@ public class MenuDaoImpl implements MenuDao {
 
     public List<Menu> update(Menu entity) {
         return null;
+    }
+
+    public boolean delete(int id) {
+        return false;
     }
 }

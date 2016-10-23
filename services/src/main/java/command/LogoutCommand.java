@@ -1,5 +1,5 @@
 package command;
-import resource.ConfigurationManager;
+import serviceManager.ConfigurationManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

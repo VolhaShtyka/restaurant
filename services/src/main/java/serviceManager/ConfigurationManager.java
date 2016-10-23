@@ -1,4 +1,4 @@
-package resource;
+package serviceManager;
 import java.util.ResourceBundle;
 public class ConfigurationManager {
 	private final static ResourceBundle resourceBundle = ResourceBundle.getBundle("config");

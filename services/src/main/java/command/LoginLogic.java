@@ -10,10 +10,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-public class LoginLogic {
+class LoginLogic {
 	private final static String adminOrUser = "SELECT client_name, password, role_name FROM client INNER JOIN role ON client.role_id=role.role_id";
-	private static String administrator = "administrator";
-	private static String userName = "user";
+
 	public static String checkLoginAdmin(String enterLogin, String enterPassword) throws SQLException {
 		String loginStatus = "guest";
 		List<User> clients = new ArrayList<User>();
@@ -42,16 +41,18 @@ public class LoginLogic {
 		} catch (PropertyVetoException e) {
 			System.out.println("PropertyVetoException e: ClientDAO");
 		} finally {
-			//st.close();
+			System.out.print("");
 		}
-		for (int i = 0; i < clients.size(); i++) {
-			if (clients.get(i).getName().equals(enterLogin)
-					&& clients.get(i).getPassword().equals(LoginMd5.md5Custom(enterPassword))
-					&& clients.get(i).getRoleName().equals(administrator)) {
+		for (User client : clients) {
+			String userName = "user";
+			String administrator = "administrator";
+			if (client.getName().equals(enterLogin)
+					&& client.getPassword().equals(LoginMd5.md5Custom(enterPassword))
+					&& client.getRoleName().equals(administrator)) {
 				loginStatus = administrator;
-			} else if (clients.get(i).getName().equals(enterLogin)
-					&& clients.get(i).getPassword().equals(LoginMd5.md5Custom(enterPassword))
-					&& clients.get(i).getRoleName().equals(userName)){
+			} else if (client.getName().equals(enterLogin)
+					&& client.getPassword().equals(LoginMd5.md5Custom(enterPassword))
+					&& client.getRoleName().equals(userName)) {
 				loginStatus = userName;
 			}
 		}

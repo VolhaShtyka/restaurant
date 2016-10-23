@@ -37,7 +37,6 @@
     </dependencies>
     <build>
         <finalName>web</finalName>
-
             <pluginManagement>
                 <plugins>
                     <plugin>
@@ -49,12 +48,9 @@
                             <path>/${project.build.finalName}</path>
                             <warfile>target/${project.build.finalName}</warfile>
                         </configuration>
-
                         <version>2.3</version>
                     </plugin>
                 </plugins>
             </pluginManagement>
-
-
     </build>
 </project>

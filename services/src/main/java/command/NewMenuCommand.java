@@ -2,7 +2,7 @@ package command;
 
 import com.shtyka.dao.daoIlml.MenuDaoImpl;
 import com.shtyka.entity.Menu;
-import resource.ConfigurationManager;
+import serviceManager.ConfigurationManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

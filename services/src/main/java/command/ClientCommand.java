@@ -7,7 +7,7 @@ import com.shtyka.entity.User;
 import com.shtyka.entity.Order;
 import com.shtyka.entity.Menu;
 
-import resource.ConfigurationManager;
+import serviceManager.ConfigurationManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -4,6 +4,8 @@ package com.shtyka.dao.daoIlml;
 import com.shtyka.dao.UserDao;
 import com.shtyka.entity.User;
 import com.shtyka.jdbc.DataSource;
+import com.shtyka.jdbc.JdbcTemplate;
+import com.shtyka.util.ManagerSQL;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
@@ -15,64 +17,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao {
-    public static final String SQL_SELECT_ALL_CLIENTS = "SELECT * FROM client";
-    public static final String SQL_SELECT_ALL_ORDERS = "SELECT menuru.price,`order`.status_order FROM menuru INNER JOIN `order` ON menuru.menu_id=`order`.menu_id INNER JOIN `client`ON `order`.client_id = `client`.client_id WHERE `client`.client_id =";
+    private static final String SQL_SELECT_ALL_CLIENTS = ManagerSQL.getProperty("SQL_SELECT_ALL_CLIENTS");
+    private static final String SQL_SELECT_ALL_ORDERS = ManagerSQL.getProperty("SQL_SELECT_ALL_ORDERS");
+    private static final String SQL_DELETE_CLIENT = ManagerSQL.getProperty("SQL_DELETE_CLIENT");
 
-    public static final String SQL_DELETE_CLIENT = "DELETE FROM client WHERE client_id=";
-    public boolean create(Object entity) throws SQLException {
-        return false;
-    }
 
-    public Object read(int id) {
-        return null;
-    }
-
-    public List update(Object entity) {
-        List<User> clients = new ArrayList<User>();
-        Connection cn = null;
-        Statement st = null;
-        try {
-            cn = DataSource.getInstance().getConnection();
-            st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery(SQL_SELECT_ALL_CLIENTS);
-            while (resultSet.next()) {
-                User client = new User();
-                client.setName(resultSet.getString("client_name"));
-                client.setTableNumber(resultSet.getInt("table_number"));
-                clients.add(client);
-            }
-            resultSet.close();
-        } catch (SQLException e) {
-            System.out.println("Request or table failed.");
-        } catch (IOException e) {
-            System.out.println("IOException e: ClientDAO");
-        } catch (PropertyVetoException e) {
-            System.out.println("PropertyVetoException e: ClientDAO");
-        } finally {
-
-            try {
-                st.close();
-                cn.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        return clients;
-    }
-
-    public boolean delete(Object entity) {
-        return false;
+   public List<User> update(User entity) throws SQLException {
+       List<User> clients = new ArrayList<User>();
+       JdbcTemplate jc = new JdbcTemplate();
+       ResultSet resultSet = JdbcTemplate.st.executeQuery(SQL_SELECT_ALL_CLIENTS);
+       while (resultSet.next()) {
+           User client = new User();
+           client.setName(resultSet.getString("client_name"));
+           client.setTableNumber(resultSet.getInt("table_number"));
+           clients.add(client);
+       }
+       resultSet.close();
+       jc.closeJdbcTemplate();
+       return clients;
     }
 
     public User findByLogin(String login) throws SQLException {
-        Connection cn = null;
-        Statement st = null;
+        JdbcTemplate jc = new JdbcTemplate();
         User user = new User();
-        try {
-            cn = DataSource.getInstance().getConnection();
-            st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery(SQL_SELECT_ALL_CLIENTS);
+        ResultSet resultSet = JdbcTemplate.st.executeQuery(SQL_SELECT_ALL_CLIENTS);
             while (resultSet.next()) {
 
                 if (resultSet.getString("client_name").equals(login)) {
@@ -82,31 +50,13 @@ public class UserDaoImpl implements UserDao {
                 }
             }
             resultSet.close();
-        } catch (SQLException e) {
-            System.out.println("Request or table failed.");
-        } catch (IOException e) {
-            System.out.println("IOException e: ClientDAO");
-        } catch (PropertyVetoException e) {
-            System.out.println("PropertyVetoException e: ClientDAO");
-        } finally {
-            st.close();
-            try {
-                cn.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+        jc.closeJdbcTemplate();
         return user;
     }
     public List<User> findAll() throws SQLException {
         List<User> clients = new ArrayList< User>();
-        Connection cn = null;
-        Statement st = null;
-        try {
-            cn = DataSource.getInstance().getConnection();
-            st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery(SQL_SELECT_ALL_CLIENTS);
+        JdbcTemplate jc = new JdbcTemplate();
+        ResultSet resultSet = JdbcTemplate.st.executeQuery(SQL_SELECT_ALL_CLIENTS);
             while (resultSet.next()) {
                 if(resultSet.getInt("role_id") == 2){
                     User client = new User();
@@ -116,32 +66,14 @@ public class UserDaoImpl implements UserDao {
                     clients.add(client);
                 }
             }
-            resultSet.close();
-        } catch (SQLException e) {
-            System.out.println("Request or table failed.");
-        } catch (IOException e) {
-            System.out.println("IOException e: ClientDAO");
-        } catch (PropertyVetoException e) {
-            System.out.println("PropertyVetoException e: ClientDAO");
-        } finally {
-            st.close();
-            try {
-                cn.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+        resultSet.close();
+        jc.closeJdbcTemplate();
         return clients;
     }
-    public User findById(int id) {
-        Connection cn = null;
-        Statement st = null;
+    public User findById(int id) throws SQLException {
         User client= new User();
-        try {
-            cn = DataSource.getInstance().getConnection();
-            st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery(SQL_SELECT_ALL_CLIENTS);
+        JdbcTemplate jc = new JdbcTemplate();
+            ResultSet resultSet = JdbcTemplate.st.executeQuery(SQL_SELECT_ALL_CLIENTS);
             while (resultSet.next()) {
                 if (resultSet.getInt("client_id") == id) {
                     client.setId(resultSet.getInt("cient_id"));
@@ -150,56 +82,23 @@ public class UserDaoImpl implements UserDao {
                 }
             }
             resultSet.close();
-        } catch (SQLException e) {
-            System.out.println("Request or table failed.");
-        } catch (IOException e) {
-            System.out.println("IOException e: ClientDAO");
-        } catch (PropertyVetoException e) {
-            System.out.println("PropertyVetoException e: ClientDAO");
-        } finally {
-            try {
-                st.close();
-                cn.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+        JdbcTemplate.closeJdbcTemplate();
         return client;
     }
-    public int countOrder(User user) {
-        Connection cn = null;
-        Statement st = null;
+    public int countOrder(User user) throws SQLException {
         int sum = 0;
-        try {
-            cn = DataSource.getInstance().getConnection();
-            st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery(SQL_SELECT_ALL_ORDERS + user.getId());
+        JdbcTemplate jc = new JdbcTemplate();
+            ResultSet resultSet = JdbcTemplate.st.executeQuery(SQL_SELECT_ALL_ORDERS + user.getId());
             while (resultSet.next()) {
                 if (!resultSet.getString("status_order").equals("CHEKED")) {
                     sum += (resultSet.getInt("price"));
                 }
             }
             resultSet.close();
-        } catch (SQLException e) {
-            System.out.println("Request or table failed.");
-        } catch (IOException e) {
-            System.out.println("IOException e: ClientDAO");
-        } catch (PropertyVetoException e) {
-            System.out.println("PropertyVetoException e: ClientDAO");
-        } finally {
-
-            try {
-                st.close();
-                cn.close();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+            JdbcTemplate.closeJdbcTemplate();
         return sum;
     }
-    public boolean deleteById(int id) {
+    public boolean delete(int id) {
         Connection cn = null;
         Statement st = null;
         try{
@@ -222,5 +121,13 @@ public class UserDaoImpl implements UserDao {
             }
         }
         return false;
+    }
+
+    public boolean create(User entity) {
+        return false;
+    }
+
+    public User read(int id) {
+        return null;
     }
 }

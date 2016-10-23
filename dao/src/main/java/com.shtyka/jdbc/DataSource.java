@@ -1,6 +1,7 @@
 package com.shtyka.jdbc;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.shtyka.util.ManagerJDBC;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
@@ -9,17 +10,17 @@ import java.sql.SQLException;
 
 public class DataSource {
     private static DataSource datasource;
-    private ComboPooledDataSource cpds;
+    private final ComboPooledDataSource cpds;
     private DataSource() throws IOException, SQLException, PropertyVetoException {
         cpds = new ComboPooledDataSource();
-        cpds.setDriverClass("com.mysql.jdbc.Driver");
-        cpds.setJdbcUrl("jdbc:mysql://localhost:3306/restoraut?useSSL=false");
-        cpds.setUser("root");
-        cpds.setPassword("1234");
-        cpds.setMinPoolSize(3);
-        cpds.setAcquireIncrement(5);
-        cpds.setMaxPoolSize(20);
-        cpds.setMaxStatements(180);
+        cpds.setDriverClass(ManagerJDBC.getProperty("driverDB"));
+        cpds.setJdbcUrl(ManagerJDBC.getProperty("url"));
+        cpds.setUser(ManagerJDBC.getProperty("loginDB"));
+        cpds.setPassword(ManagerJDBC.getProperty("passwordDB"));
+//        cpds.setMinPoolSize(Integer.parseInt(ManagerJDBC.getProperty("minPoolSize")));
+//        cpds.setAcquireIncrement(Integer.parseInt(ManagerJDBC.getProperty("acquireIncrement")));
+//        cpds.setMaxPoolSize(Integer.parseInt(ManagerJDBC.getProperty("maxPoolSize")));
+//        cpds.setMaxStatements(Integer.parseInt(ManagerJDBC.getProperty("maxStatements")));
     }
     public static DataSource getInstance() throws IOException, SQLException, PropertyVetoException {
         if (datasource == null) {
