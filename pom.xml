@@ -12,17 +12,32 @@
         <module>web</module>
     </modules>
     <packaging>pom</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>cobertura-maven-plugin</artifactId>
+            <version>2.7</version>
+        </dependency>
+    </dependencies>
     <build>
+        <finalName>ServletRestoraut</finalName>
         <plugins>
-              <plugin>
-                   <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.1</version>
-                        <configuration>
-                            <source>1.8</source>
-                            <target>1.8</target>
-                        </configuration>
-                    </plugin>
+              <!--<plugin>-->
+                   <!--<groupId>org.apache.maven.plugins</groupId>-->
+                        <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                        <!--<version>3.1</version>-->
+                        <!--<configuration>-->
+                            <!--<source>1.8</source>-->
+                            <!--<target>1.8</target>-->
+                        <!--</configuration>-->
+                    <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<artifactId>maven-war-plugin</artifactId>-->
+                <!--<version>3.0.0</version>-->
+                <!--<configuration>-->
+                    <!--<warSourceDirectory>WebContent</warSourceDirectory>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
@@ -35,13 +50,19 @@
                     <check/>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <!--<url>http://localhost:8080/manager/text</url>-->
+                    <server>tomcat</server>
+                    <username>admin</username>
+                    <password>adminadmin</password>
+                    <path>/${project.build.finalName}</path>
+                    <warFile>target/${project.build.finalName}.war</warFile>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-    <dependencies>
-    <dependency>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.7</version>
-    </dependency>
-    </dependencies>
 </project>

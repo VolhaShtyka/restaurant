@@ -35,22 +35,4 @@
             <version>1.2</version>
         </dependency>
     </dependencies>
-    <build>
-        <finalName>web</finalName>
-            <pluginManagement>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.tomcat.maven</groupId>
-                        <artifactId>tomcat7-maven-plugin</artifactId>
-                        <configuration>
-                            <username>admin</username>
-                            <password>adminadmin</password>
-                            <path>/${project.build.finalName}</path>
-                            <warfile>target/${project.build.finalName}</warfile>
-                        </configuration>
-                        <version>2.3</version>
-                    </plugin>
-                </plugins>
-            </pluginManagement>
-    </build>
 </project>
