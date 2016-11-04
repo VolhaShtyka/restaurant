@@ -30,7 +30,7 @@
 		<tr>
 			<td data-th="Movie Title">
 				<form action="ServletRestoraut" method="post">
-					<select size="3" name="menuForOrder">
+					<select multiple  size="3" name="menuForOrder">
 						<c:forEach var="menu" items="${menus}">
 							<option value="${menu}">№ ${menu}${cost} ${menu.weight} ${unit}</option>
 						</c:forEach>

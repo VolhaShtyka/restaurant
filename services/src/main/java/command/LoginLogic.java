@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 class LoginLogic {
 	private final static String adminOrUser = "SELECT client_name, password, role_name FROM client INNER JOIN role ON client.role_id=role.role_id";
 

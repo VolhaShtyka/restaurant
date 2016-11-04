@@ -1,24 +1,24 @@
 package command;
 
 import com.shtyka.dao.daoIlml.MenuDaoImpl;
+import com.shtyka.dao.exceptions.DaoException;
 import com.shtyka.entity.Menu;
+import commandFactory.SessionRequestContent;
 import serviceManager.ConfigurationManager;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 public class NewMenuCommand implements ActionCommand {	
 
-	public String execute(HttpServletRequest request,
-			HttpServletResponse response) throws SQLException {		
+	public String execute(SessionRequestContent requestContent) throws SQLException, DaoException {
 		String page = null;
 		Menu menu = new Menu();
-		menu.setMealName(request.getParameter("mealNameNewEN")+"-"+request.getParameter("mealNameNewRU"));
-		menu.setPrice(Integer.parseInt(request.getParameter("priceNew")));
-		menu.setWeight(Integer.parseInt(request.getParameter("weightNew")));
+		//menu.setMealName(requestContent.getParameter("mealNameNewEN")+"-"+requestContent.getParameter("mealNameNewRU"));
+		menu.setMealName(requestContent.getParameter("mealNameNewEN")+"-"+requestContent.getParameter("mealNameNewRU"));
+		menu.setPrice(Integer.parseInt(requestContent.getParameter("priceNew")[0]));
+		menu.setWeight(Integer.parseInt(requestContent.getParameter("weightNew")[0]));
 		page = ConfigurationManager.getProperty("path.page.admin");
 		MenuDaoImpl menuNew = new MenuDaoImpl();
-		menuNew.create(menu);
+		menuNew.saveOrUpdate(menu);
 		return page;
 	}
 }

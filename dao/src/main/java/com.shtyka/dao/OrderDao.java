@@ -1,4 +1,5 @@
 package com.shtyka.dao;
 
-public interface OrderDao extends Dao{
+public class OrderDao<Order> extends BaseDao<Order>{
+
 }

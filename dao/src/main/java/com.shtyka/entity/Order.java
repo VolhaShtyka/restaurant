@@ -1,6 +1,8 @@
 package com.shtyka.entity;
 
-public class Order {
+import java.io.Serializable;
+
+public class Order implements Serializable {
     private int orderId;
     private int clientId;
     private int menuId;

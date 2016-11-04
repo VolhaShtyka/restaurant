@@ -1,20 +1,23 @@
 package command;
+
 import com.shtyka.dao.daoIlml.UserDaoImpl;
+import com.shtyka.dao.exceptions.DaoException;
+import com.shtyka.entity.User;
+import commandFactory.SessionRequestContent;
 import serviceManager.ConfigurationManager;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-public class DeleteCommand implements ActionCommand {	
+import java.io.Serializable;
 
-	public String execute(HttpServletRequest request,
-			HttpServletResponse response) {
+public class DeleteCommand implements ActionCommand {
+
+	public String execute(SessionRequestContent requestContent) throws DaoException {
 		String page;
-		HttpSession session = request.getSession(true);		
-		UserDaoImpl administatortDAO= new UserDaoImpl();
-		administatortDAO.delete(Integer.parseInt((String) session.getAttribute("userid")));
-		session.removeAttribute("users");
-		session.removeAttribute("orders");
+		UserDaoImpl trolollo = new UserDaoImpl ();
+		Serializable id = (Serializable) requestContent.getAttribute("userid");
+		User administatortDAO= trolollo.get(id);
+		trolollo.delete(administatortDAO);
+		requestContent.removeAttribute("users");
+		requestContent.removeAttribute("orders");
 		page = ConfigurationManager.getProperty("path.page.admin");
 		return page;
 	}

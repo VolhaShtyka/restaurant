@@ -8,10 +8,16 @@
         <servlet-name>ServletRestoraut</servlet-name>
         <servlet-class>controllers.ServletRestoraut</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>ServletRestoraut</servlet-name>
         <url-pattern>/ServletRestoraut</url-pattern>
     </servlet-mapping>
-
+    <!--<filter>-->
+        <!--<filter-name>FilterClient</filter-name>-->
+        <!--<filter-class>filters.FilterClient</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>FilterClient</filter-name>-->
+        <!--<url-pattern>/client/*</url-pattern>-->
+    <!--</filter-mapping>-->
 </web-app>

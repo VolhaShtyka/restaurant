@@ -1,13 +1,10 @@
 package com.shtyka.dao;
 
-import com.shtyka.entity.User;
+import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
 
-import java.sql.SQLException;
-import java.util.List;
+public class UserDao<User> extends BaseDao <User>{
+    private static Logger log = Logger.getLogger(UserDao.class);
+    private Transaction transaction = null;
 
-public interface UserDao extends Dao <User>{
-    boolean create(User entity);
-    User read(int id);
-    List<User> update(User entity) throws SQLException;
-    boolean delete(int id);
 }

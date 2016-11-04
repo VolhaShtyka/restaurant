@@ -2,6 +2,7 @@ package command;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 class LoginMd5 {
 	public static String md5Custom(String st) {
 		MessageDigest messageDigest;

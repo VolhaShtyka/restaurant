@@ -17,10 +17,10 @@ public class DataSource {
         cpds.setJdbcUrl(ManagerJDBC.getProperty("url"));
         cpds.setUser(ManagerJDBC.getProperty("loginDB"));
         cpds.setPassword(ManagerJDBC.getProperty("passwordDB"));
-//        cpds.setMinPoolSize(Integer.parseInt(ManagerJDBC.getProperty("minPoolSize")));
-//        cpds.setAcquireIncrement(Integer.parseInt(ManagerJDBC.getProperty("acquireIncrement")));
-//        cpds.setMaxPoolSize(Integer.parseInt(ManagerJDBC.getProperty("maxPoolSize")));
-//        cpds.setMaxStatements(Integer.parseInt(ManagerJDBC.getProperty("maxStatements")));
+        cpds.setMinPoolSize(Integer.parseInt(ManagerJDBC.getProperty("minPoolSize")));
+        cpds.setAcquireIncrement(Integer.parseInt(ManagerJDBC.getProperty("acquireIncrement")));
+        cpds.setMaxPoolSize(Integer.parseInt(ManagerJDBC.getProperty("maxPoolSize")));
+        cpds.setMaxStatements(Integer.parseInt(ManagerJDBC.getProperty("maxStatements")));
     }
     public static DataSource getInstance() throws IOException, SQLException, PropertyVetoException {
         if (datasource == null) {

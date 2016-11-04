@@ -1,21 +1,6 @@
 package commandEnum;
-import command.ActionCommand;
-import command.AllowanceCommand;
-import command.ClearByIdOrderCommand;
-import command.ClearCommand;
-import command.CookingCommand;
-import command.CountClientCommand;
-import command.CountCommand;
-import command.CreateNewMenuCommand;
-import command.OrderCommand;
-import command.ReadyCommand;
-import command.DeleteCommand;
-import command.DiscountCommand;
-import command.LanguageCommand;
-import command.LoginCommand;
-import command.LogoutCommand;
-import command.MoreInfoCommand;
-import command.NewMenuCommand;
+
+import command.*;
 
 //a list of all commands
 public enum CommandEnum {

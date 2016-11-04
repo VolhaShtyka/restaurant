@@ -1,12 +1,13 @@
 package command;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.shtyka.dao.exceptions.DaoException;
+import commandFactory.SessionRequestContent;
+
 import java.sql.SQLException;
+
 /*
  * Interface commands, which will be overridden 
  * by all the teams in the servlet
 */
 public interface ActionCommand {
-	String execute(HttpServletRequest request,
-                   HttpServletResponse response) throws SQLException;
+	String execute(SessionRequestContent requestContent) throws SQLException, DaoException;
 }

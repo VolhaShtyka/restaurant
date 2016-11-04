@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        <hibernate-mapping package="com.shtyka.entity" auto-import="false" catalog="restoraut">
+    <class name="Menu" table="menuen">
+        <id name="menuId" type="int" column="menu_id">
+        <generator class="increment"/>
+        </id>
+        <property name="price" column="price" type="int"/>
+        <property name="mealName" column="meal_name" type="string"/>
+        <property name="weight" column="weight" type="int"/>
+    </class>
+ </hibernate-mapping>

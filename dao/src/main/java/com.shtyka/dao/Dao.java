@@ -1,12 +1,13 @@
 package com.shtyka.dao;
 
-import java.sql.SQLException;
-import java.util.List;
+import com.shtyka.dao.exceptions.DaoException;
+
+import java.io.Serializable;
 
 interface Dao<T> {
 
-    boolean create(T entity);
-    T read(int id) throws SQLException;
-    List<T> update(T entity) throws SQLException;
-    boolean delete(int id);
+    void saveOrUpdate(T t) throws DaoException;
+    T get(Serializable id) throws DaoException;
+    T load(Serializable id) throws DaoException;
+    void delete(T t) throws DaoException;
 }

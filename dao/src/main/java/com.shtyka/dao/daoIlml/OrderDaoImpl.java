@@ -15,28 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class OrderDaoImpl implements OrderDao{
+public class OrderDaoImpl extends OrderDao<Order>{
     private static final String SQL_SELECT_ALL_ORDER = ManagerSQL.getProperty("SQL_SELECT_ALL_ORDER");
     private static final String SQL_DELETE_ALL_ORDER = ManagerSQL.getProperty("SQL_DELETE_ALL_ORDER");
     private static final String SQL_DELETE_ORDER = ManagerSQL.getProperty("SQL_DELETE_ORDER");
     private static final String SQL_UPDATE_ALL_ORDER = ManagerSQL.getProperty("SQL_UPDATE_ALL_ORDER");
     private static final String SQL_CREATE_NEW_ORDER = ManagerSQL.getProperty("SQL_CREATE_NEW_ORDER");
 
-    public boolean create(Object entity) {
-        return false;
-    }
 
-    public Object read(int id) {
-        return null;
-    }
-
-    public List update(Object entity) {
-        return null;
-    }
-
-    public boolean delete(Object entity) {
-        return false;
-    }
     public List<Order> findAll() {
         List<Order> orders = new ArrayList<Order>();
         Connection cn = null;
@@ -106,110 +92,110 @@ public class OrderDaoImpl implements OrderDao{
         return orders;
     }
 
-    public boolean delete(int id) {
-        Connection cn = null;
-        Statement st = null;
-        try {
-            cn = DataSource.getInstance().getConnection();
-            st = cn.createStatement();
-            st.executeUpdate(SQL_DELETE_ORDER+id);
-            st.close();
-        } catch (SQLException e) {
-            System.out.println("Request or table failed.");
-        } catch (IOException e) {
-            System.out.println("IOException e: ClientDAO");
-        } catch (PropertyVetoException e) {
-            System.out.println("PropertyVetoException e: ClientDAO");
-        } finally {
-
-            try {
-                cn.close();
-            } catch (SQLException e) {
-                System.out.println("Request or table failed.");
-            }
-        }
-        return false;
-    }
-
-
-    public boolean delete() {
-        Connection cn = null;
-        Statement st = null;
-        try {
-            cn = DataSource.getInstance().getConnection();
-            st = cn.createStatement();
-            st.executeUpdate(SQL_DELETE_ALL_ORDER);
-            st.close();
-        } catch (SQLException e) {
-            System.out.println("Request or table failed.");
-        } catch (IOException e) {
-            System.out.println("IOException e: ClientDAO");
-        } catch (PropertyVetoException e) {
-            System.out.println("PropertyVetoException e: ClientDAO");
-        } finally {
-            try {
-                cn.close();
-            } catch (SQLException e) {
-                System.out.println("Request or table failed.");
-            }
-        }
-        return false;
-    }
+//    public boolean delete(int id) {
+//        Connection cn = null;
+//        Statement st = null;
+//        try {
+//            cn = DataSource.getInstance().getConnection();
+//            st = cn.createStatement();
+//            st.executeUpdate(SQL_DELETE_ORDER+id);
+//            st.close();
+//        } catch (SQLException e) {
+//            System.out.println("Request or table failed.");
+//        } catch (IOException e) {
+//            System.out.println("IOException e: ClientDAO");
+//        } catch (PropertyVetoException e) {
+//            System.out.println("PropertyVetoException e: ClientDAO");
+//        } finally {
+//
+//            try {
+//                cn.close();
+//            } catch (SQLException e) {
+//                System.out.println("Request or table failed.");
+//            }
+//        }
+//        return true;
+//    }
 
 
-    public boolean create(Order order) {
-        Connection cn = null;
-        PreparedStatement st = null;
-        try {
-            cn = DataSource.getInstance().getConnection();
-            st = cn.prepareStatement(SQL_CREATE_NEW_ORDER);
-            st.setInt(1, order.getOrderId());
-            st.setInt(2, order.getClientId());
-            st.setString(3, order.getStatusOrder());
-            return st.execute();
-        } catch (SQLException e) {
-            System.out.println("Request or table failed.");
-        } catch (IOException e) {
-            System.out.println("IOException e: ClientDAO");
-        } catch (PropertyVetoException e) {
-            System.out.println("PropertyVetoException e: ClientDAO");
-        } finally {
+//    public boolean delete() {
+//        Connection cn = null;
+//        Statement st = null;
+//        try {
+//            cn = DataSource.getInstance().getConnection();
+//            st = cn.createStatement();
+//            st.executeUpdate(SQL_DELETE_ALL_ORDER);
+//            st.close();
+//        } catch (SQLException e) {
+//            System.out.println("Request or table failed.");
+//        } catch (IOException e) {
+//            System.out.println("IOException e: ClientDAO");
+//        } catch (PropertyVetoException e) {
+//            System.out.println("PropertyVetoException e: ClientDAO");
+//        } finally {
+//            try {
+//                cn.close();
+//            } catch (SQLException e) {
+//                System.out.println("Request or table failed.");
+//            }
+//        }
+//        return false;
+//    }
 
-            try {
-                st.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.out.println("Request or table failed.");
-            }
-        }
-        return false;
-    }
 
-    public Order update(String status) {
-        Connection cn = null;
-        PreparedStatement st = null;
-        try {
-            cn = DataSource.getInstance().getConnection();
-            st = cn.prepareStatement(SQL_UPDATE_ALL_ORDER);
-            st.setString(1, status);
-            st.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Request or table failed.");
-        } catch (IOException e) {
-            System.out.println("IOException e: ClientDAO");
-        } catch (PropertyVetoException e) {
-            System.out.println("PropertyVetoException e: ClientDAO");
-        } finally {
+//    public boolean create(Order order) {
+//        Connection cn = null;
+//        PreparedStatement st = null;
+//        try {
+//            cn = DataSource.getInstance().getConnection();
+//            st = cn.prepareStatement(SQL_CREATE_NEW_ORDER);
+//            st.setInt(1, order.getOrderId());
+//            st.setInt(2, order.getClientId());
+//            st.setString(3, order.getStatusOrder());
+//            return st.execute();
+//        } catch (SQLException e) {
+//            System.out.println("Request or table failed.");
+//        } catch (IOException e) {
+//            System.out.println("IOException e: ClientDAO");
+//        } catch (PropertyVetoException e) {
+//            System.out.println("PropertyVetoException e: ClientDAO");
+//        } finally {
+//
+//            try {
+//                st.close();
+//                cn.close();
+//            } catch (SQLException e) {
+//                System.out.println("Request or table failed.");
+//            }
+//        }
+//        return false;
+//    }
 
-            try {
-                st.close();
-                cn.close();
-            } catch (SQLException e) {
-                System.out.println("Request or table failed.");
-            }
-        }
-        return null;
-    }
+//    public Order update(String status) {
+//        Connection cn = null;
+//        PreparedStatement st = null;
+//        try {
+//            cn = DataSource.getInstance().getConnection();
+//            st = cn.prepareStatement(SQL_UPDATE_ALL_ORDER);
+//            st.setString(1, status);
+//            st.executeUpdate();
+//        } catch (SQLException e) {
+//            System.out.println("Request or table failed.");
+//        } catch (IOException e) {
+//            System.out.println("IOException e: ClientDAO");
+//        } catch (PropertyVetoException e) {
+//            System.out.println("PropertyVetoException e: ClientDAO");
+//        } finally {
+//
+//            try {
+//                st.close();
+//                cn.close();
+//            } catch (SQLException e) {
+//                System.out.println("Request or table failed.");
+//            }
+//        }
+//        return null;
+//    }
 
 
     public Order createByMenu(Menu menu, User user) throws SQLException {
