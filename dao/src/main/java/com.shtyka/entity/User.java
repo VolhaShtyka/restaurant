@@ -1,15 +1,55 @@
 package com.shtyka.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "users")
+@GenericGenerator(name = "PK", strategy = "increment")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "PK")
+    public Integer getId() {
+        return id;
+    }
     private Integer id;
+
+
+    @Column (name = "role_id")
+    public Integer getRoleId() {
+        return roleId;
+    }
     private Integer roleId;
+
+
+    @Column (name = "password")
+    public String getPassword() { return password;}
     private String password;
+
+    @Column (name = "user_name")
+    public String getName() {
+        return name;
+    }
     private String name;
+
+    @Column (name = "table_number")
+    public Integer getTableNumber() {
+        return tableNumber;
+    }
     private Integer tableNumber;
-    //private String roleName;
+
+    @ManyToMany(cascade = CascadeType.ALL  )
+    @JoinTable(name = "orders",
+            joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn (name = "menu_id")})
+    public List <Menu> getMenus() { return menus; }
+    private List<Menu> menus;
+
     public User(){}
 
 //    public User(String name, String password, String roleName){
@@ -25,42 +65,20 @@ public class User implements Serializable {
 //        this.tableNumber=tableNumber;
 //        this.roleName = roleName;
 //    }
-public Integer getId() {
-    return id;
-}
+
 
     public void setId(Integer id) {
         this.id = id;
     }
-
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
-
-    public Integer getTableNumber() {
-        return tableNumber;
-    }
-
     public void setTableNumber(Integer numberTable) {
         this.tableNumber = numberTable;
     }
@@ -92,10 +110,8 @@ public Integer getId() {
         return result;
     }
 
-    public void setRoleName(String roleName) {
-        //this.roleName = roleName;
-    }
-    public String getRoleName() {
-        return "administrator";
+
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
     }
 }

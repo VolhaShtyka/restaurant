@@ -5,6 +5,7 @@
 <title>User Page</title>
 <link rel="stylesheet" href="css/normalize.css">
 <link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/stylePagination.css">
 </head>
 <body>
 	<h1><span style="color: #b0cd2e; ">${pageClient}</span></h1>
@@ -30,7 +31,7 @@
 		<tr>
 			<td data-th="Movie Title">
 				<form action="ServletRestoraut" method="post">
-					<select multiple  size="3" name="menuForOrder">
+					<select multiple name="menuForOrder">
 						<c:forEach var="menu" items="${menus}">
 							<option value="${menu}">№ ${menu}${cost} ${menu.weight} ${unit}</option>
 						</c:forEach>
@@ -42,13 +43,40 @@
 						<input type="hidden" name="command" value="Order">
 						<input type="submit" value="${orderCommand}">
 					</p>
-					${errorChooseCheked}				
+					${errorChooseCheked}
 				</form>
-				
 			</td>
 		</tr>
 	</table>
-		
+
+    <c:choose>
+        <c:when test="${currentPage != 1}">
+            <td><a href="ServletRestoraut?command=client&currentPage=${currentPage - 1}">Предыдущая</a></td>
+        </c:when>
+        <c:otherwise>
+            <td></td>
+        </c:otherwise>
+    </c:choose>
+
+    <c:forEach begin="1" end="${numberOfPages}" var="i">
+        <c:choose>
+            <c:when test="${currentPage eq i}">
+                <td>${i}</td>
+            </c:when>
+            <c:otherwise>
+                <td><a href="ServletRestoraut?command=client&currentPage=${i}">${i}</a></td>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+
+    <c:choose>
+        <c:when test="${currentPage lt numberOfPages}">
+            <td><a href="ServletRestoraut?command=client&currentPage=${currentPage + 1}">Следующая</a></td>
+        </c:when>
+        <c:otherwise>
+            <td></td>
+        </c:otherwise>
+    </c:choose>
 	<jsp:include page="order.jsp" />	
 </body>
 </html>

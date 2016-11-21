@@ -8,9 +8,9 @@ import org.hibernate.cfg.Configuration;
 
 
 public class HibernateUtil {
-    private static HibernateUtil util = getHibernateUtil();
+    private static HibernateUtil util;
     private static Logger log = Logger.getLogger(HibernateUtil.class);
-    private static SessionFactory sessionFactory = getSessionFactory();
+    private static SessionFactory sessionFactory ;
     private static final ThreadLocal sessions = new ThreadLocal();
 
 
@@ -21,12 +21,11 @@ public class HibernateUtil {
             sessionFactory = configuration.buildSessionFactory(builder.build());
         } catch (Throwable e) {
             log.error("Initial SessionFactory creation failed. "+ e);
-            System.exit(0);
+            throw new ExceptionInInitializerError(e);
         }
     }
 
-
-    public static Session getSession(){
+    public Session getSession(){
         Session session = (Session) sessions.get();
         if(session == null){
         session = sessionFactory.openSession();
@@ -40,14 +39,4 @@ public class HibernateUtil {
         }
         return util;
     }
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-//    public static void closeSession() {
-//        if (getSession() != null && getSession().isOpen()) {
-//            log.info("Closing Session of this thread.");
-//            getSession().close();
-//        }
-//        sessions.set(null);
-//    }
 }

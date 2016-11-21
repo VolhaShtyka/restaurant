@@ -1,12 +1,13 @@
 package controllers;
 
 import com.shtyka.dao.exceptions.DaoException;
+import com.shtyka.services.exceptions.ServiceException;
 import command.ActionCommand;
-import commandFactory.ActionFactory;
-import commandFactory.SessionRequestContent;
-import serviceManager.ConfigurationManager;
-import serviceManager.LanguageBundle;
-import serviceManager.MessageManager;
+import command.commandFactory.ActionFactory;
+import command.commandFactory.SessionRequestContent;
+import webManager.ConfigurationManager;
+import webManager.LanguageBundle;
+import webManager.MessageManager;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,7 +18,7 @@ import java.sql.SQLException;
 
 public class RequestHandler {
     protected static void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, DaoException {
+            throws ServletException, IOException, SQLException, DaoException, ServiceException {
         request.setCharacterEncoding("UTF-8");
         String page;
         //define came from jsp command and call processing method

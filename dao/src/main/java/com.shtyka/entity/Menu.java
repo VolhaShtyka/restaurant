@@ -1,14 +1,51 @@
 package com.shtyka.entity;
 
-import java.io.Serializable;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
+
+@Entity
+@Table(name = "menuru")
+@GenericGenerator(name = "PK", strategy = "increment")
 public class Menu implements Serializable {
-    private Integer menuId;
+    private static final long serialVersionUID = 2L;
+
+    @Id
+    @Column(name = "menu_id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "PK")
+    public Long getMenuId() {
+        return menuId;
+    }
+    private Long menuId;
+
+    @Column(name = "meal_name")
+    public String getMealName() {
+        return mealName;
+    }
     private String mealName;
+
+    @Column(name = "price")
+    public Integer getPrice() {
+        return price;
+    }
     private Integer price;
+
+    @Column(name = "weight")
+    public Integer getWeight() {
+        return weight;
+    }
     private Integer weight;
+
+    @ManyToMany(mappedBy = "menus")
+    public List<User> getUsers() {
+        return users;
+    }
+    private List<User> users;
+
     public Menu(){}
-    public Menu(Integer menuId, String mealName, Integer price, Integer weight){
+    public Menu(Long menuId, String mealName, Integer price, Integer weight){
         this.menuId = menuId;
         this.mealName=mealName;
         this.price = price;
@@ -37,28 +74,22 @@ public class Menu implements Serializable {
     public String toString(){
         return menuId+" " +  mealName + " " + price + " ";
     }
-    public Integer getMenuId() {
-        return menuId;
-    }
-    public void setMenuId(Integer menuId) {
+
+    public void setMenuId(Long menuId) {
         this.menuId = menuId;
     }
-    public String getMealName() {
-        return mealName;
-    }
-    public void setMealName(String mealName) {
-        this.mealName = mealName;
-    }
-    public Integer getPrice() {
-        return price;
-    }
+    public void setMealName(String mealName) { this.mealName = mealName; }
     public void setPrice(Integer price) {
         this.price = price;
     }
-    public Integer getWeight() {
-        return weight;
-    }
     public void setWeight(Integer weight) {
         this.weight = weight;
+    }
+
+
+
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }
