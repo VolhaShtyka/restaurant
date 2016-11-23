@@ -15,6 +15,7 @@ public class UserServiceImpl extends UserService<User> {
     private UserDaoImpl userDao = UserDaoImpl.getUserDaoImpl();
     private final Logger log = Logger.getLogger(UserServiceImpl.class);
     private static UserServiceImpl userService;
+    Session session = util.getSession();
 
     public UserServiceImpl() {
     }
@@ -28,7 +29,6 @@ public class UserServiceImpl extends UserService<User> {
     @Override
     public User findByLogin(String login) throws ServiceException {
         User user;
-        Session session = util.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -46,7 +46,6 @@ public class UserServiceImpl extends UserService<User> {
     @Override
     public List<User> findAll() throws ServiceException {
         List<User> users;
-        Session session = util.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -64,7 +63,7 @@ public class UserServiceImpl extends UserService<User> {
 
     //    public User get(Serializable id) throws ServiceException{
 //        User user ;
-//        Session session = util.getSession();
+//
 //        Transaction transaction = null;
 //        try {
 //        transaction = session.beginTransaction();
@@ -79,8 +78,7 @@ public class UserServiceImpl extends UserService<User> {
 //        return user; }
     @Override
     public int countOrder(User user) throws ServiceException {
-        int count = 0;
-        Session session = util.getSession();
+        int count;
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -98,7 +96,6 @@ public class UserServiceImpl extends UserService<User> {
     @Override
     public String checkLoginAdmin(String enterLogin, String enterPassword) throws ServiceException {
         String status;
-        Session session = util.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();

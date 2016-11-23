@@ -32,7 +32,11 @@ public class ClientCommand implements ActionCommand {
 
 		List <Order> orders = OrderServiceImpl.getOrderServiceImpl().findClientOrder(user.getId());
 		for (int i = 0; i < orders.size(); i++) {
-			sum = orders.get(i).getTotalOrder();
+			for (int j = 0; j < menus.size(); j++) {
+				if(orders.get(i).getMenuId().equals(menus.get(j).getMenuId())) {
+					sum = menus.get(i).getPrice();
+				}
+			}
 		}
 		requestContent.setAttribute("numberOfPages", numberOfPages);
 		requestContent.setAttribute("currentPage", currentPage);

@@ -26,8 +26,10 @@ public class ClearCommand implements ActionCommand {
                 order.delete(order1.getOrderId());
             }
         }
+
 		orders = order.findAll();
 		requestContent.setAttribute("orders", orders);
+        requestContent.setAttribute("sum", 0);
 		return ConfigurationManager.getProperty("path.page.main");
 	}
 }

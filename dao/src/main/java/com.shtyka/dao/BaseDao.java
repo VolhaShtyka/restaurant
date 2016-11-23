@@ -13,7 +13,7 @@ import java.util.List;
 public class BaseDao<T> implements Dao<T> {
     private static Logger log = Logger.getLogger(BaseDao.class);
     protected static HibernateUtil util = HibernateUtil.getHibernateUtil();
-   private Class clazz;
+    private Class clazz;
     static BaseDao baseDao;
 
     public BaseDao() {}

@@ -1,12 +1,12 @@
 package com.shtyka.dao.daoImpl;
 
+import com.shtyka.dao.BaseDao;
 import com.shtyka.dao.UserDao;
 import com.shtyka.dao.exceptions.DaoException;
 import com.shtyka.entity.Menu;
 import com.shtyka.entity.Order;
 import com.shtyka.entity.User;
 import com.shtyka.util.LoginMd5;
-import com.shtyka.util.ManagerHQL;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -14,11 +14,11 @@ import org.hibernate.Session;
 
 import java.util.List;
 
-public class UserDaoImpl extends UserDao<User> {
-    private static final String HQL_SELECT_CLIENT = ManagerHQL.getProperty("HQL_SELECT_CLIENT");
-    private final static String HQL_ADMIN_OR_USER = ManagerHQL.getProperty("HQL_ADMIN_OR_USER");
-    private static final String HQL_SELECT_MENU = ManagerHQL.getProperty("HQL_SELECT_MENU");
-    private static final String HQL_SELECT_ALL_ORDERS = ManagerHQL.getProperty("HQL_SELECT_ALL_ORDERS");
+public class UserDaoImpl extends BaseDao<User> implements UserDao<User>{
+    private static final String HQL_SELECT_CLIENT = "FROM User WHERE name= :name";
+    private final static String HQL_ADMIN_OR_USER = "FROM User WHERE name= :login AND password = :password";
+    private static final String HQL_SELECT_MENU = "FROM Menu WHERE menu_id= :id";
+    private static final String HQL_SELECT_ALL_ORDERS = "FROM Order WHERE clientId= :id";
     private final Logger log = Logger.getLogger(UserDaoImpl.class);
     private static UserDaoImpl userDao;
 
@@ -29,7 +29,6 @@ public class UserDaoImpl extends UserDao<User> {
         return userDao;
     }
 
-    @Override
     public User findByLogin(String login) throws DaoException {
         User user;
         try {
@@ -38,14 +37,12 @@ public class UserDaoImpl extends UserDao<User> {
             user = (User) query.uniqueResult();
             log.info(user);
         } catch (HibernateException e) {
-            e.printStackTrace();
             log.info("Unable to login. Error in DAO");
             throw new DaoException(e);
         }
         return user;
     }
 
-    @Override
     public int countOrder(User user) throws DaoException {
         int sum = 0;
         List<Order> orders;
@@ -65,14 +62,13 @@ public class UserDaoImpl extends UserDao<User> {
 
             log.info(user + "order create.");
         } catch (HibernateException e) {
-            e.printStackTrace();
             log.info("Error in count order");
             throw new DaoException(e);
         }
         return sum;
     }
 
-    @Override
+
     public String checkLoginAdmin(String enterLogin, String enterPassword) throws DaoException {
         User user;
         Integer userName = 2;
@@ -97,7 +93,6 @@ public class UserDaoImpl extends UserDao<User> {
                 log.info(user);
             }
         } catch (HibernateException e) {
-            e.printStackTrace();
             log.error("Unable to login. Error in DAO");
             throw new DaoException(e);
         }

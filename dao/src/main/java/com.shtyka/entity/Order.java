@@ -43,21 +43,13 @@ public class Order implements Serializable {
 
     private String statusOrder;
 
-    @Formula("order_id*2")
-    public Integer getTotalOrder() {
-        return totalOrder;
-    }
-
-    private Integer totalOrder;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.PERSIST)
     public List<Menu> getMenus() {
         return menus;
     }
     private List<Menu> menus;
 
-    public Order() {
-    }
+    public Order() {}
 
     public Order(String statusOrder, Integer orderId, Integer clientId, Long menuId, List<Menu> menu) {
         this.orderId = orderId;
@@ -65,7 +57,6 @@ public class Order implements Serializable {
         this.clientId = clientId;
         this.menuId = menuId;
         this.menus = menu;
-        //this.totalOrder = totalOrder;
     }
 
     @Override
@@ -106,9 +97,7 @@ public class Order implements Serializable {
     public void setMenuId(Long menuId) {
         this.menuId = menuId;
     }
-    public void setTotalOrder(Integer totalOrder) {
-        this.totalOrder = totalOrder;
-    }
+
 
     public void setMenus(List<Menu> menus) {
         this.menus = menus;
@@ -122,6 +111,4 @@ public class Order implements Serializable {
             return orderId + " " + statusOrder;
         }
     }
-
-
 }

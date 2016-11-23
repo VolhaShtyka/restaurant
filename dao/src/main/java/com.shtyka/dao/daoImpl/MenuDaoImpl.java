@@ -1,9 +1,9 @@
 package com.shtyka.dao.daoImpl;
 
+import com.shtyka.dao.BaseDao;
 import com.shtyka.dao.MenuDao;
 import com.shtyka.dao.exceptions.DaoException;
 import com.shtyka.entity.Menu;
-import com.shtyka.util.ManagerHQL;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -12,9 +12,9 @@ import org.hibernate.criterion.Projections;
 
 import java.util.List;
 
-public class MenuDaoImpl extends MenuDao<Menu> {
+public class MenuDaoImpl extends BaseDao<Menu> implements MenuDao<Menu> {
     private static Logger log = Logger.getLogger(MenuDaoImpl.class);
-    private static final String HQL_SELECT_MENU = ManagerHQL.getProperty("HQL_SELECT_MENU");
+    private static final String HQL_SELECT_MENU = "from Menu where menu_id= :id";
     private static MenuDaoImpl menuDao;
 
 
@@ -24,7 +24,7 @@ public class MenuDaoImpl extends MenuDao<Menu> {
         }
         return menuDao;
     }
-    @Override
+
     public Menu findEntityById(int id) throws DaoException {
         Menu menu;
         try {
@@ -33,13 +33,12 @@ public class MenuDaoImpl extends MenuDao<Menu> {
             menu = (Menu) query.uniqueResult();
             log.info(menu);
         }catch (HibernateException e){
-            e.printStackTrace();
             log.info("Error in DAO findEntityById");
             throw new DaoException(e);
         }
         return menu;
     }
-    @Override
+
     public List<Menu> findAll(int recordsPerPage, int currentPage) throws DaoException {
         List<Menu> results;
         try {
@@ -53,7 +52,7 @@ public class MenuDaoImpl extends MenuDao<Menu> {
         }
         return results;
     }
-    @Override
+
     public Long getAmount() throws DaoException {
         Long amount;
         try {
