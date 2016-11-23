@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDaoImpl extends OrderDao<Order>{
@@ -25,8 +26,8 @@ public class OrderDaoImpl extends OrderDao<Order>{
         return orderDaoImpl;
     }
 
-
-    public List<Order> findOrderClient(Integer id) throws DaoException {
+    @Override
+    public List<Order> findClientOrder(Integer id) throws DaoException {
         List<Order> orders;
         try {
             Query query = util.getSession().createQuery(HQL_SELECT_ALL_MEALNAME);
@@ -41,12 +42,15 @@ public class OrderDaoImpl extends OrderDao<Order>{
         return orders;
     }
 
-
+    @Override
     public Order createByMenu(Menu menu, User user) throws DaoException {
         Order order = new Order();
+        List<Menu> menus = new ArrayList<Menu>();
+        menus.add(menu);
         order.setStatusOrder(StatusMeal.NOREADY.name());
         order.setClientId(user.getId());
         order.setMenuId(menu.getMenuId());
+        order.setMenus(menus);
         OrderDaoImpl.getOrderDaoImpl().saveOrUpdate(order);
         return order;
     }

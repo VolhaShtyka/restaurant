@@ -24,7 +24,7 @@ public class MenuDaoImpl extends MenuDao<Menu> {
         }
         return menuDao;
     }
-
+    @Override
     public Menu findEntityById(int id) throws DaoException {
         Menu menu;
         try {
@@ -39,7 +39,7 @@ public class MenuDaoImpl extends MenuDao<Menu> {
         }
         return menu;
     }
-
+    @Override
     public List<Menu> findAll(int recordsPerPage, int currentPage) throws DaoException {
         List<Menu> results;
         try {
@@ -53,6 +53,7 @@ public class MenuDaoImpl extends MenuDao<Menu> {
         }
         return results;
     }
+    @Override
     public Long getAmount() throws DaoException {
         Long amount;
         try {

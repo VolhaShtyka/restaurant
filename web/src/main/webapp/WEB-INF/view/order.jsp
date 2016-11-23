@@ -15,7 +15,7 @@
 		</tr>
 		<tr>
 			<td data-th="Movie Title">
-				<form action="ServletRestoraut" method="post">
+				<form action="ServletRestaurant" method="post">
 					<c:forEach var="order" items="${orders}">
 					${nameMeal}			
 					<p>${orderNumber}${order}</p>
@@ -24,7 +24,7 @@
 					<input type="hidden" name="command" value="Cooking">
 					<input type="submit" value="${cookingCommand}">
 					</form>
-					<form action="ServletRestoraut" method="post">
+					<form action="ServletRestaurant" method="post">
 					<input type="hidden" name="command" value="Clear">
 					<input	type="submit" value="${clearCommand}"><br>
 					${errorCookingMessage}

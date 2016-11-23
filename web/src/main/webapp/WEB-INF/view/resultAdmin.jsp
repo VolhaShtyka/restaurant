@@ -14,7 +14,7 @@
 		</tr>
 		<tr>
 			<c:forEach var="user" items="${users}">
-				<td data-th="Movie Title" >${name}: ${user.name}. ${tableNumber}: ${user.tableNumber} <a href="ServletRestoraut?command=delete">${delete}</a></td><br>				
+				<td data-th="Movie Title" >${name}: ${user.name}. ${tableNumber}: ${user.tableNumber} <a href="ServletRestaurant?command=delete">${delete}</a></td><br>
 			</c:forEach>			
 		</tr>
 	</table>
@@ -24,7 +24,7 @@
 		</tr>
 		<tr>
 			<td data-th="Movie Title">
-				<form action="ServletRestoraut" method="post">
+				<form action="ServletRestaurant" method="post">
 					<c:forEach var="order" items="${orders}">
 						<option value="${order}">${orderNumber}${order}</option><br>
 					</c:forEach>
@@ -39,22 +39,22 @@
 			</td>
 		</tr>
 	</table>
-	<a href="ServletRestoraut?command=newMenuCreat">${newMenu}</a>
+	<a href="ServletRestaurant?command=newMenuCreat">${newMenu}</a>
 	<table class="rwd-table">	
 		<tr>
 			<th>${actionWithOrder}</th>			
 		</tr>
 		<tr>
 			<td data-th="Movie Title">				
-				<form action="ServletRestoraut" method="post">
+				<form action="ServletRestaurant" method="post">
 					<input type="hidden" name="command" value="Discount">
 					<input type="submit" value="${discount}">
 				</form>
-				<form action="ServletRestoraut" method="post">
+				<form action="ServletRestaurant" method="post">
 					<input type="hidden" name="command" value="Allowance"> 
 					<input type="submit" value="${allowance}">
 				</form>
-				<form action="ServletRestoraut" method="post">
+				<form action="ServletRestaurant" method="post">
 					<input type="hidden" name="command" value="Count">
 					<input type="submit" value="${count}">
 					${errorCookingCheked}
@@ -65,8 +65,8 @@
 <table class="rwd-table">
 	<tr>
 	<td>
-	<a href="ServletRestoraut?command=more">${more}</a>
-	<a href="ServletRestoraut?command=logout">${logout}</a>
+	<a href="ServletRestaurant?command=more">${more}</a>
+	<a href="ServletRestaurant?command=logout">${logout}</a>
 	</td>
 	</tr>
 </table>

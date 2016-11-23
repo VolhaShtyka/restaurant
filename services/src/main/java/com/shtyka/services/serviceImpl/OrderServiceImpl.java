@@ -26,14 +26,14 @@ public class OrderServiceImpl extends OrderService<Order> {
         }
         return orderService;
     }
-
-    public List<Order> findOrderClient(Integer userId) throws ServiceException {
+    @Override
+    public List<Order> findClientOrder(Integer userId) throws ServiceException {
         List<Order> orders;
         Session session = util.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            orders = orderDao.findOrderClient(userId);
+            orders = orderDao.findClientOrder(userId);
             transaction.commit();
             log.info(orders + TRANSACTION_SUCCESS);
         } catch (DaoException e) {
@@ -42,6 +42,21 @@ public class OrderServiceImpl extends OrderService<Order> {
             throw new ServiceException(TRANSACTION_FAIL, e);
         }
         return orders;
+    }
+    @Override
+    public void delete(Serializable id) throws ServiceException {
+        Session session = util.getSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            orderDao.delete(id);
+            transaction.commit();
+            log.info(id + TRANSACTION_SUCCESS);
+        } catch (DaoException e) {
+            transaction.rollback();
+            log.error(TRANSACTION_FAIL, e);
+            throw new ServiceException(TRANSACTION_FAIL, e);
+        }
     }
 
     @Override

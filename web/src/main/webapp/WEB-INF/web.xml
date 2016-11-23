@@ -3,21 +3,29 @@
          xmlns="http://java.sun.com/xml/ns/javaee"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
-  <display-name>ServletRestoraut</display-name>
+  <display-name>ServletRestaurant</display-name>
     <servlet>
-        <servlet-name>ServletRestoraut</servlet-name>
-        <servlet-class>controllers.ServletRestoraut</servlet-class>
+        <servlet-name>ServletRestaurant</servlet-name>
+        <servlet-class>com.shtyka.web.controllers.ServletRestaurant</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ServletRestoraut</servlet-name>
-        <url-pattern>/ServletRestoraut</url-pattern>
+        <servlet-name>ServletRestaurant</servlet-name>
+        <url-pattern>/ServletRestaurant</url-pattern>
     </servlet-mapping>
-    <!--<filter>-->
-        <!--<filter-name>FilterClient</filter-name>-->
-        <!--<filter-class>filters.FilterClient</filter-class>-->
-    <!--</filter>-->
-    <!--<filter-mapping>-->
-        <!--<filter-name>FilterClient</filter-name>-->
-        <!--<url-pattern>/client/*</url-pattern>-->
-    <!--</filter-mapping>-->
+    <filter>
+        <filter-name>FilterClient</filter-name>
+        <filter-class>com.shtyka.web.filters.FilterClient</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FilterClient</filter-name>
+        <url-pattern>/client/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>PaginationFilter</filter-name>
+        <filter-class>com.shtyka.web.filters.PaginationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PaginationFilter</filter-name>
+        <url-pattern>/client/*</url-pattern>
+    </filter-mapping>
 </web-app>

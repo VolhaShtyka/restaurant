@@ -7,6 +7,6 @@ import com.shtyka.entity.User;
 import java.util.List;
 
 public abstract class OrderDao<Order> extends BaseDao<Order>{
-    public abstract List<Order> findOrderClient(Integer id) throws DaoException;
+    public abstract List<Order> findClientOrder(Integer id) throws DaoException;
     public abstract Order createByMenu(Menu menu, User user) throws DaoException;
 }

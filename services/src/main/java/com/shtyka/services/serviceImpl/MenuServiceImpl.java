@@ -1,15 +1,14 @@
 package com.shtyka.services.serviceImpl;
 
-import com.shtyka.services.MenuService;
 import com.shtyka.dao.daoImpl.MenuDaoImpl;
 import com.shtyka.dao.exceptions.DaoException;
 import com.shtyka.entity.Menu;
+import com.shtyka.services.MenuService;
 import com.shtyka.services.exceptions.ServiceException;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class MenuServiceImpl extends MenuService<Menu> {
@@ -79,8 +78,8 @@ public class MenuServiceImpl extends MenuService<Menu> {
         return menu;
     }
 
-    @Override
-    public Menu get(Serializable id) throws ServiceException {
-        return null;
-    }
+//    @Override
+//    public Menu get(Serializable id) throws ServiceException {
+//        return null;
+//    }
 }

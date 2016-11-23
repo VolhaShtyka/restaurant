@@ -13,7 +13,7 @@
 		</tr>
 		<tr>
 			<td data-th="Movie Title">
-				<form action="ServletRestoraut" method="post">					
+				<form action="ServletRestaurant" method="post">
 					<input placeholder="${mealNameRU}" name="mealNameNewRU"><br>
 					<input placeholder="${mealNameEN}" name="mealNameNewEN"><br>					
 					<input placeholder="${price}" name="priceNew"><br>

@@ -3,6 +3,7 @@ package com.shtyka.dao;
 import com.shtyka.dao.exceptions.DaoException;
 
 public abstract class UserDao<User> extends BaseDao <User>{
+
     public abstract User findByLogin(String login) throws DaoException;
 
     /*

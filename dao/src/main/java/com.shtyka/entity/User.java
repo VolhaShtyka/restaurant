@@ -44,13 +44,9 @@ public class User implements Serializable {
     }
     private Integer tableNumber;
 
-    @ManyToMany(cascade = CascadeType.ALL  )
-    @JoinTable(name = "orders",
-            joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn (name = "menu_id")})
-    public List <Menu> getMenus() { return menus; }
-    private List<Menu> menus;
 
     public User(){}
+    public User(int i, int i1, int i2, String michel, int i3, List<Menu> menu){}
 
 //    public User(String name, String password, String roleName){
 //        this.password = password;
@@ -111,7 +107,4 @@ public class User implements Serializable {
     }
 
 
-    public void setMenus(List<Menu> menus) {
-        this.menus = menus;
-    }
 }
