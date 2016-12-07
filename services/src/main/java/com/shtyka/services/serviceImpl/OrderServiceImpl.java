@@ -5,6 +5,7 @@ import com.shtyka.dao.exceptions.DaoException;
 import com.shtyka.entity.Menu;
 import com.shtyka.entity.Order;
 import com.shtyka.entity.User;
+import com.shtyka.services.BaseService;
 import com.shtyka.services.OrderService;
 import com.shtyka.services.exceptions.ServiceException;
 import org.apache.log4j.Logger;
@@ -14,9 +15,9 @@ import org.hibernate.Transaction;
 import java.io.Serializable;
 import java.util.List;
 
-public class OrderServiceImpl extends OrderService<Order> {
+public class OrderServiceImpl extends BaseService<Order> implements OrderService<Order>{
     private final Logger log = Logger.getLogger(OrderServiceImpl.class);
-    private OrderDaoImpl orderDao = OrderDaoImpl.getOrderDaoImpl();
+    private OrderDaoImpl orderDao;
     private static OrderServiceImpl orderService;
 
     public OrderServiceImpl(){}

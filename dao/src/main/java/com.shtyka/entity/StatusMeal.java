@@ -10,9 +10,14 @@ public enum StatusMeal {
     StatusMeal(String valueEnum) {
         this.setValueEnum(valueEnum);
     }
-    public String getValueEnum() {
-        propert = ResourceBundle.getBundle("RU", Locale.getDefault());
-        return propert.getString(valueEnum);
+    public static String getValueEnum(String valueEnum) {
+        if(("ru").equalsIgnoreCase(Locale.getDefault().getLanguage())) {
+            propert = ResourceBundle.getBundle("RU", Locale.getDefault());
+            return propert.getString(valueEnum);
+        }else {
+            propert = ResourceBundle.getBundle("EN", Locale.getDefault());
+            return propert.getString(valueEnum);
+        }
     }
     private void setValueEnum(String valueEnum) {
         this.valueEnum = valueEnum;

@@ -21,7 +21,7 @@ public class RequestHandler {
             throws ServletException, IOException, SQLException, DaoException, ServiceException {
         request.setCharacterEncoding("UTF-8");
         String page;
-        //define came from jsp command and call processing method
+
         SessionRequestContent requestContent = new SessionRequestContent();
         requestContent.extractValues(request);
         ActionFactory client = new ActionFactory();

@@ -1,6 +1,5 @@
 package com.shtyka.web.command;
 
-import com.shtyka.dao.exceptions.DaoException;
 import com.shtyka.entity.Menu;
 import com.shtyka.entity.Order;
 import com.shtyka.entity.User;
@@ -17,27 +16,32 @@ import java.util.List;
 import java.util.Locale;
 
 public class ClientCommand implements ActionCommand {
-	public static int sum = 0;
+	public int sum = 0;
 	public static int currentPage = 1;
-	public static int recordsPerPage = 2;
+	public static int recordsPerPage = 4;
 
-	public String execute(SessionRequestContent requestContent) throws DaoException, ServiceException {
+	public String execute(SessionRequestContent requestContent) throws ServiceException {
 
 		int numberOfPages = MenuServiceImpl.getMenuServiceImpl().getNumberOfPages(recordsPerPage);
 		User user = UserServiceImpl.getUserServiceImpl().findByLogin(requestContent.getParameter("login")[0]);
 		MenuServiceImpl menuService = new MenuServiceImpl();
 		List<Menu> menus = menuService.findAll(recordsPerPage, currentPage);
+		List <Menu> menusForOrder = menuService.findAll();
 		Calendar c = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm", Locale.getDefault());
 
 		List <Order> orders = OrderServiceImpl.getOrderServiceImpl().findClientOrder(user.getId());
 		for (int i = 0; i < orders.size(); i++) {
-			for (int j = 0; j < menus.size(); j++) {
-				if(orders.get(i).getMenuId().equals(menus.get(j).getMenuId())) {
-					sum = menus.get(i).getPrice();
+			for (int j = 0; j < menusForOrder.size(); j++) {
+				if(orders.get(i).getMenuId().equals(menusForOrder.get(j).getMenuId())) {
+					sum += menus.get(i).getPrice();
 				}
 			}
 		}
+		requestContent.setAttribute("minPrice", null);
+		requestContent.setAttribute("maxPrice", null);
+		requestContent.setAttribute("minWeight", null);
+		requestContent.setAttribute("maxWeight", null);
 		requestContent.setAttribute("numberOfPages", numberOfPages);
 		requestContent.setAttribute("currentPage", currentPage);
 		requestContent.setAttribute("recordsPerPage", recordsPerPage);

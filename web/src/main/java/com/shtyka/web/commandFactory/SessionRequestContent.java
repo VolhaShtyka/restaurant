@@ -52,8 +52,14 @@ public class SessionRequestContent {
         requestAttributes.put(key, value);
     }
     public void setAttribute(String key, Object value) {
-        sessionAttributes.put(key, value);
-        session.setAttribute(key,value);
+        if (sessionAttributes != null) {
+            sessionAttributes.put(key, value);
+            session.setAttribute(key, value);
+        }else {
+            sessionAttributes = new HashMap<>();
+            sessionAttributes.put(key, value);
+            session.setAttribute(key, value);
+        }
     }
 
   //  возвращаем Request
@@ -78,5 +84,8 @@ public class SessionRequestContent {
             }
         }
         return request;
+    }
+    public void setSessionAttributes(HashMap<String, Object> sessionAttributes) {
+        this.sessionAttributes = sessionAttributes;
     }
 }

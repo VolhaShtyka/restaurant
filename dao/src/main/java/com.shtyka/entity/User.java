@@ -1,13 +1,15 @@
 package com.shtyka.entity;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 @GenericGenerator(name = "PK", strategy = "increment")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -80,7 +82,7 @@ public class User implements Serializable {
     }
     @Override
     public String toString(){
-        return name + " " + tableNumber;
+        return " " + name;
     }
     @Override
     public boolean equals(Object o){

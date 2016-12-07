@@ -1,7 +1,7 @@
 package com.shtyka.web.commandFactory;
 
-import com.shtyka.web.command.EmptyCommand;
 import com.shtyka.web.command.ActionCommand;
+import com.shtyka.web.command.EmptyCommand;
 import com.shtyka.web.commandEnum.CommandEnum;
 import com.shtyka.web.webManager.MessageManager;
 

@@ -11,4 +11,5 @@ import java.sql.SQLException;
 */
 public interface ActionCommand {
 	String execute(SessionRequestContent requestContent) throws DaoException, ServiceException, SQLException;
+
 }

@@ -9,7 +9,7 @@
 </head>
 <body>
 
-	<table class="rwd-table">
+	<table class="rwd-table" align="left">
 		<tr>
 			<th>${orderClient}</th>
 		</tr>

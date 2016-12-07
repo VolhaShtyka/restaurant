@@ -10,12 +10,12 @@ import org.hibernate.Transaction;
 
 import java.io.Serializable;
 
-public abstract class BaseService<T> implements IService<T> {
+public class BaseService<T> implements IService<T> {
     protected final String TRANSACTION_SUCCESS = "Transaction is completed successfully";
     protected final String TRANSACTION_FAIL = "Transaction failed. Error in service.";
     protected static HibernateUtil util = HibernateUtil.getHibernateUtil();
     private final Logger log = Logger.getLogger(BaseService.class);
-    private BaseDao baseDao = BaseDao.getBaseDao();
+    private BaseDao baseDao;
 
     public void delete(Serializable id) throws ServiceException {
 

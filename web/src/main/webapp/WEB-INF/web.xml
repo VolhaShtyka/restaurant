@@ -20,12 +20,4 @@
         <filter-name>FilterClient</filter-name>
         <url-pattern>/client/*</url-pattern>
     </filter-mapping>
-    <filter>
-        <filter-name>PaginationFilter</filter-name>
-        <filter-class>com.shtyka.web.filters.PaginationFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>PaginationFilter</filter-name>
-        <url-pattern>/client/*</url-pattern>
-    </filter-mapping>
 </web-app>

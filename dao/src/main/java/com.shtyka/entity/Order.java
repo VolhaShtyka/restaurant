@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 @Table(name = "orders")
@@ -103,10 +104,15 @@ public class Order implements Serializable {
         this.menus = menus;
     }
 
+
     @Override
     public String toString() {
+
         if (!menus.isEmpty()) {
-            return orderId + " " + menus.get(0).getMealName() + " " + statusOrder;
+            if(("ru").equalsIgnoreCase(Locale.getDefault().getLanguage())) {
+                return orderId + " " + menus.get(0).getMealName() + " " + StatusMeal.getValueEnum(statusOrder);
+            }else{return orderId + " " + menus.get(0).getNameen() + " " +  StatusMeal.getValueEnum(statusOrder);
+            }
         }else{
             return orderId + " " + statusOrder;
         }

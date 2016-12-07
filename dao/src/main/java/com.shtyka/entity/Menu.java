@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 @Table(name = "menuru")
@@ -25,14 +26,18 @@ public class Menu implements Serializable {
     public String getMealName() {
         return mealName;
     }
-
     private String mealName;
+
+    @Column(name = "nameen")
+    public String getNameen() {
+        return nameen;
+    }
+    private String nameen;
 
     @Column(name = "price")
     public Integer getPrice() {
         return price;
     }
-
     private Integer price;
 
     @Column(name = "weight")
@@ -82,7 +87,11 @@ public class Menu implements Serializable {
 
     @Override
     public String toString() {
-        return menuId + " " + mealName + " " + price + " ";
+        if(("ru").equalsIgnoreCase(Locale.getDefault().getLanguage())) {
+            return menuId + " " + mealName + " " + price + " ";
+        }else{
+            return menuId + " " + nameen + " " + price + " ";
+        }
     }
 
     public void setMenuId(Long menuId) {
@@ -91,6 +100,9 @@ public class Menu implements Serializable {
 
     public void setMealName(String mealName) {
         this.mealName = mealName;
+    }
+    public void setNameen(String nameen) {
+        this.nameen = nameen;
     }
 
     public void setPrice(Integer price) {

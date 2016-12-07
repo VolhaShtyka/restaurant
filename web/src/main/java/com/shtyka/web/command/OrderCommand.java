@@ -29,7 +29,7 @@ public class OrderCommand implements ActionCommand {
         } else {
             String menu = requestContent.getParameter("menuForOrder")[0];
             String[] poiskId = menu.split(" ");
-            int menuId = Integer.valueOf(poiskId[0]);
+            Integer menuId = Integer.valueOf(poiskId[0]);
             MenuServiceImpl menudao = MenuServiceImpl.getMenuServiceImpl();
             OrderServiceImpl orderdao = OrderServiceImpl.getOrderServiceImpl();
             UserServiceImpl clientdao = UserServiceImpl.getUserServiceImpl();
@@ -37,8 +37,6 @@ public class OrderCommand implements ActionCommand {
 
             orderdao.createByMenu(menudao.findEntityById(menuId),
                     clientdao.findByLogin((String) requestContent.getAttribute(userName)));
-
-
             List<Order> orders = orderdao
                     .findClientOrder(clientdao.findByLogin((String) requestContent.getAttribute(userName)).getId());
 

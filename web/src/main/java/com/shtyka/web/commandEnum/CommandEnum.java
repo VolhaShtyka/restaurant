@@ -88,7 +88,42 @@ public enum CommandEnum {
 		{
 			this.command = new CountClientCommand();
 		}
-	};
+	},
+	SORT {
+		{
+			this.command = new ClientPageSortCommand();
+		}
+	},
+	CLEARSORT {
+		{
+			this.command = new ClearSort();
+		}
+	},
+	SORTING {
+		{
+			this.command = new SortingCommand();
+		}
+	},
+	CLIENTDETAILS {
+		{
+			this.command = new ClientDetailsCommand();
+		}
+	},
+	FILTERCLIENTS {
+		{
+			this.command = new ClientsFilterCommand();
+		}
+	},
+	CLEARSORTADMIN {
+		{
+			this.command = new ClearSortAdmin();
+		}
+	},
+    ADMINFILTER {
+        {
+            this.command = new AdminFilterCommand();
+        }
+    };
 	ActionCommand command;
 	public ActionCommand getCurrentCommand() {
 		return command;

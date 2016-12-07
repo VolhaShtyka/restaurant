@@ -2,6 +2,8 @@ package com.shtyka.dao;
 
 import com.shtyka.dao.exceptions.DaoException;
 
+import java.util.List;
+
 public interface UserDao<User> extends Dao <User>{
 
     User findByLogin(String login) throws DaoException;
@@ -20,4 +22,7 @@ public interface UserDao<User> extends Dao <User>{
 			 * with the data entered by md5
 			 */
    String checkLoginAdmin(String enterLogin, String enterPassword) throws DaoException;
+
+    int getNumberPageWithFilter(Integer minTableNumber, Integer maxTableNumber) throws DaoException;
+    List<User> findAll(int recordsPerPage, int currentPage, Integer minTableNumber, Integer maxTableNumber, String DESC) throws DaoException;
 }
