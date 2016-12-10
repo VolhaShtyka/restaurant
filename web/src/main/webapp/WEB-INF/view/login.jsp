@@ -1,5 +1,6 @@
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <html>
 <head>
 <title>Login</title>
@@ -7,17 +8,19 @@
 </head>
 <body>
 
-	<form action=http://localhost:8080/projectRestaurant/login name="loginForm" class="login">
-		<input type="hidden" name="command" value="login" class="login-input" />		${loginQuest}
-		<input name="login" type="text" value="" class="login-input" /><br> ${passwordQuest}
-		<input name="password" type="password" value="" class="login-input" /><br>${errorLoginPasswordMessage} <br>
-		<input type="submit" value="${logIn}" />
-	</form>
+<form action=http://localhost:8080/projectRestaurant/login name="loginForm" class="login" method="post">
+    <s:message code="loginQuest"/>
+    <input name="login" type="text" value="" class="login-input" /> <br>
+    <s:message code="passwordQuest"/>
+    <input name="password" type="password" value="" class="login-input" /><br>
+    ${errorLoginPasswordMessage} <br>
+    <input type="submit"  value="<s:message code="logIn"/>"/>
+</form>
 
-	<form action=http://localhost:8080/projectRestaurant/language name="language" class="login" >
-			<p align="center"><input type="hidden" name="command" value="language"/>
-            <input name="language" type="submit" value="EN">
-            <input name="language" type="submit" value="RU" ></p>
-	</form>
+	<table class="login" >
+			<p align="center">
+                <a href="?locale=ru"><a href="?locale=ru"/>RU</a>
+                <a href="?locale=en">EN</a>
+	</table>
 </body>
 </html>

@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <html>
 <head>
 <title>User Page</title>
@@ -8,14 +9,14 @@
     <link rel="stylesheet" href="<c:url value="/css/stylePagination.css"/>">
 </head>
 <body>
-	<h1><span style="color: #b0cd2e; ">${pageClient}</span></h1>
-	<a href="ServletRestaurant?command=logout">"${logout}"</a>
+	<h1><span style="color: #b0cd2e; "><s:message code="pageClient"/></span></h1>
+	<a href="ServletRestaurant?command=logout"><s:message code="logout"/>"</a>
 	<table class="rwd-table">
 		<tr>
-			<th>${name}</th>
-			<th>${tableNumber}</th>
-			<th>${timeArrival}</th>
-			<th>${chekOrder}</th>
+			<th><s:message code="name"/></th>
+			<th><s:message code="tableNumber"/></th>
+			<th><s:message code="timeArrival"/></th>
+			<th><s:message code="chekOrder"/></th>
 		</tr>
 		<tr>
 			<td data-th="Movie Title">${user}</td>
@@ -28,7 +29,7 @@
 
 	<table class="rwd-table">
 		<tr>
-			<th>${menuNameList}</th>
+			<th><s:message code="menuNameList"/></th>
 
 		</tr>
 
@@ -44,7 +45,7 @@
 					</p>
 					<p>
 						<input type="hidden" name="command" value="Order">
-						<input type="submit" value="${orderCommand}">
+						<input type="submit" value=<s:message code="orderCommand"/>>
 					</p>
 					${errorChooseCheked}
 				</form>
@@ -53,7 +54,7 @@
         <th>
             <form method="post" action="ServletRestaurant">
                 <input type="hidden" name="command" value="sorting"/>
-                <input name="sortPriceOrWeight" type="submit" value="1" style="width: 12%"/> ${priceASC}<br>
+                <input name="sortPriceOrWeight" type="submit" value="1" style="width: 15%"/> ${priceASC}<br>
                 <input name="sortPriceOrWeight" type="submit" value="2"/> ${priceDESC}<br>
                 <input name="sortPriceOrWeight" type="submit" value="3"/> ${weightASC}<br>
                 <input name="sortPriceOrWeight" type="submit" value="4"/> ${weightDESC}<br>
@@ -65,17 +66,17 @@
             <form method="post" action="ServletRestaurant" >
 
                 <input type="hidden" name="command" value="sort"/>
-                <div style="width: 150%; margin-left: 3%">${choosePrice}
+                <div style="width: 150%; margin-left: 3%"><s:message code="choosePrice"/>
                 <input name="minPrice" type="text" value=""/>
                 <input name="maxPrice" type="text" value=""/><br></div>
-                ${chooseWeight}
+                <s:message code="chooseWeight"/>
                 <input name="minWeight" type="text" value=""/>
                 <input name="maxWeight" type="text" value=""/><br>
-                <input type="submit" value="${show}" />
+                <input type="submit" value=<s:message code="show"/> />
             </form>
             <form method="post" action="ServletRestaurant">
                 <input type="hidden" name="command" value="clearSort"/>
-                <input type="submit" value="${reset}" />
+                <input type="submit" value=<s:message code="reset"/> />
             </form>
             </td>
 		</td>

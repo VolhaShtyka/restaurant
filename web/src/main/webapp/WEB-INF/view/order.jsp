@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 
 <html>
@@ -22,11 +23,11 @@
 					</c:forEach>
 					
 					<input type="hidden" name="command" value="Cooking">
-					<input type="submit" value="${cookingCommand}">
+					<input type="submit" value="<s:message code="cookingCommand"/>">
 					</form>
 					<form action="ServletRestaurant" method="post">
 					<input type="hidden" name="command" value="Clear">
-					<input	type="submit" value="${clearCommand}"><br>
+					<input	type="submit" value="<s:message code="clearCommand"/>"><br>
 					${errorCookingMessage}
 				</form>
 			</td>

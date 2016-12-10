@@ -3,8 +3,8 @@
 <html>
 <head>
 <title>User Page</title>
-<link rel="stylesheet" href="css/normalize.css">
-<link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="<c:url value="/css/styles.css"/>">
+    <link rel="stylesheet" href="<c:url value="/css/normalize.css"/>">
 </head>
 <body>
 	<h1><span style="color: #b0cd2e; ">${pageAdmin}</span></h1>

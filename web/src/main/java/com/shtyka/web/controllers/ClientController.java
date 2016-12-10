@@ -9,7 +9,6 @@ import com.shtyka.services.OrderService;
 import com.shtyka.services.UserService;
 import com.shtyka.services.exceptions.ServiceException;
 import com.shtyka.web.webManager.ConfigurationManager;
-import com.shtyka.web.webManager.LanguageBundle;
 import com.shtyka.web.webManager.MessageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -91,16 +90,16 @@ public class ClientController {
 
     @RequestMapping(value = "/client", method = RequestMethod.GET)
     public String getClientPage(ModelMap model,
-                                @ModelAttribute("login") String login,
-								@ModelAttribute("language") String language) throws ServiceException {
-		model = LanguageBundle.addLanguage(language, model);
-        int sum = 0;
+                                @ModelAttribute("login") String login, Locale locale) throws ServiceException {
+
+		int sum = 0;
         int currentPage = 1;
         int recordsPerPage = 4;
         int numberOfPages = menuService.getNumberOfPages(recordsPerPage);
         User user = (User) userService.findByLogin(login);
         List<Menu> menus = menuService.findAll(recordsPerPage, currentPage);
         List <Menu> menusForOrder = menuService.findAll();
+		Locale.setDefault(locale);
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm", Locale.getDefault());
         List <Order> orders = orderService.findClientOrder(user.getId());
