@@ -1,13 +1,15 @@
 package com.shtyka.web.webManager;
 
-import com.shtyka.web.commandFactory.SessionRequestContent;
+
+import org.springframework.ui.ModelMap;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
+
 public class LanguageBundle {
-    public static void addLanguage(String fileURL, SessionRequestContent requestContent){
+    public static ModelMap addLanguage(String fileURL, ModelMap modelMap){
 		Properties properties = new Properties();
 		InputStream in = LanguageBundle.class.getClassLoader().getResourceAsStream(fileURL);
 		try {
@@ -20,7 +22,8 @@ public class LanguageBundle {
 		}
 		for(Object key : properties.keySet()) {
 			String value = properties.getProperty((String)key);
-			requestContent.setAttribute((String)key, value);
+			modelMap.addAttribute((String)key, value);
 		}
+		return modelMap;
 	}
 }

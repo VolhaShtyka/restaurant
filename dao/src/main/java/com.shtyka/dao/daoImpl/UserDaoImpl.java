@@ -9,8 +9,6 @@ import com.shtyka.entity.User;
 import com.shtyka.util.LoginMd5;
 import org.apache.log4j.Logger;
 import org.hibernate.*;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -30,7 +28,10 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao<User>{
     private static final String HQL_SELECT_USERS_WITH_FILTER = "FROM User WHERE tableNumber BETWEEN :minTableNumber AND :maxTableNumber";
     private final Logger log = Logger.getLogger(UserDaoImpl.class);
     private Session session;
-    private UserDaoImpl userDao;
+
+
+    UserDao userDao;
+
 
     @Autowired
     public UserDaoImpl (SessionFactory sessionFactory){
@@ -42,7 +43,7 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao<User>{
     public User findByLogin(String login) throws DaoException {
         User user;
         try {
-            Query query = util.getSession().createQuery(HQL_SELECT_CLIENT);
+            Query query = getSession().createQuery(HQL_SELECT_CLIENT);
             query.setParameter("name", login);
             user = (User) query.uniqueResult();
             log.info(user);
@@ -58,12 +59,12 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao<User>{
         int sum = 0;
         List<Order> orders;
         try {
-            Query query = util.getSession().createQuery(HQL_SELECT_ALL_ORDERS);
+            Query query = getSession().createQuery(HQL_SELECT_ALL_ORDERS);
             query.setParameter("id", user.getId());
             orders = query.list();
             List<Menu> menus;
             for (Order order : orders) {
-                query = util.getSession().createQuery(HQL_SELECT_MENU);
+                query = getSession().createQuery(HQL_SELECT_MENU);
                 query.setParameter("id", order.getMenuId());
                 menus = query.list();
                 for (int i = 0; i < menus.size(); i++) {
@@ -86,7 +87,7 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao<User>{
         Integer administrator = 1;
         String loginStatus = "guest";
         try {
-            Session session = util.getSession();
+            Session session = getSession();
             Query query = session.createQuery(HQL_ADMIN_OR_USER);
             query.setParameter("login", enterLogin);
             query.setParameter("password", enterPassword);
@@ -125,7 +126,7 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao<User>{
             }
         }
         try {
-            Session session = util.getSession();
+            Session session = getSession();
             Query query;
             switch (DESC){
                 case "nameUp":
@@ -164,7 +165,7 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao<User>{
     public int getNumberPageWithFilter(Integer minTableNumber, Integer maxTableNumber) throws DaoException {
         int amount;
         try {
-            Session session = util.getSession();
+            Session session = getSession();
             Query query = session.createQuery(HQL_SELECT_USERS_WITH_FILTER);
             query.setParameter("minTableNumber", minTableNumber);
             query.setParameter("maxTableNumber", maxTableNumber);

@@ -1,6 +1,7 @@
 package com.shtyka.services.serviceImpl;
 
 import com.shtyka.dao.MenuDao;
+import com.shtyka.dao.OrderDao;
 import com.shtyka.dao.UserDao;
 import com.shtyka.dao.exceptions.DaoException;
 import com.shtyka.entity.Menu;
@@ -10,67 +11,57 @@ import com.shtyka.services.BaseService;
 import com.shtyka.services.UserService;
 import com.shtyka.services.exceptions.ServiceException;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class UserServiceImpl extends BaseService<User> implements UserService<User> {
-    private UserDao userDao;
-    private final Logger log = Logger.getLogger(UserServiceImpl.class);
-    private static UserServiceImpl userService;
-    Session session = util.getSession();
 
-    public UserServiceImpl() {
-    }
+    private final Logger log = Logger.getLogger(UserServiceImpl.class);
 
     @Autowired
-    private MenuDao menuDao;
+    UserDao userDao;
+
+    @Autowired
+    MenuDao menuDao;
+
+    @Autowired
+    OrderDao orderDao;
 
     @Autowired
     public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
 
-    public static synchronized UserServiceImpl getUserServiceImpl() {
-        if (userService == null) {
-            userService = new UserServiceImpl();
-        }
-        return userService;
-    }
 
-    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public User findByLogin(String login) throws ServiceException {
         User user;
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             user = (User) userDao.findByLogin(login);
-            transaction.commit();
             log.info(user);
             log.info(TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL, e);
             throw new ServiceException(TRANSACTION_FAIL, e);
         }
         return user;
     }
 
-    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<User> findAll() throws ServiceException {
         List<User> users;
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             users = userDao.findAll();
-            transaction.commit();
             log.info(users);
             log.info(TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL);
             throw new ServiceException(e.getMessage());
         }
@@ -93,50 +84,45 @@ public class UserServiceImpl extends BaseService<User> implements UserService<Us
 //        }
 //        return user; }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public int countOrder(User user) throws ServiceException {
         int count;
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             count = userDao.countOrder(user);
-            transaction.commit();
             log.info(count);
             log.info(TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL);
             throw new ServiceException(e.getMessage());
         }
         return count;
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public String checkLoginAdmin(String enterLogin, String enterPassword) throws ServiceException {
         String status;
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             status = userDao.checkLoginAdmin(enterLogin, enterPassword);
-            transaction.commit();
             log.info(status);
             log.info(TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL, e);
             throw new ServiceException(TRANSACTION_FAIL, e);
         }
         return status;
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<User> findAll(int recordsPerPage, int currentPage, Integer minPrice, Integer maxPrice, Integer minTableNumber, Integer maxTableNumber, String ASC) throws ServiceException {
         List<User> results;
         List<User> clients = new ArrayList<>();
         List<Order> orders;
         List<Menu> menus;
-        Transaction transaction = null;
         try {
             int sumMaxPrice = 0;
-            transaction = session.beginTransaction();
-            orders = OrderServiceImpl.getOrderServiceImpl().findAll();
+            orders = orderDao.findAll();
             results = userDao.findAll(recordsPerPage, currentPage, minTableNumber, maxTableNumber, ASC);
             menus = menuDao.findAll();
             if (maxPrice == null) {
@@ -147,7 +133,6 @@ public class UserServiceImpl extends BaseService<User> implements UserService<Us
                     }
                 }
             }
-            ArrayList<Integer> sumPrev = new ArrayList<>();
             for (User user : results) {
                 Integer sum = 0;
                 for (Order order : orders) {
@@ -181,13 +166,8 @@ public class UserServiceImpl extends BaseService<User> implements UserService<Us
                     clients.add(user);
                 }
             }
-
-
-            transaction.commit();
-            log.info(clients);
             log.info(TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL, e);
             throw new ServiceException(TRANSACTION_FAIL, e);
         }
@@ -195,19 +175,16 @@ public class UserServiceImpl extends BaseService<User> implements UserService<Us
         return clients;
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Integer getNumberPageWithFilter(Integer minPrice, Integer maxPrice, Integer minTableNumber, Integer maxTableNumber) throws ServiceException {
         Integer amount;
         Integer numberOfPages;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             amount = userDao.getNumberPageWithFilter(minTableNumber, maxTableNumber);
             numberOfPages = (int) Math.ceil(amount * 1.0 / 4);
-            transaction.commit();
             log.info(amount + TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL, e);
             throw new ServiceException(TRANSACTION_FAIL, e);
         }

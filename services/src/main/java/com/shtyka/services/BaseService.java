@@ -1,51 +1,55 @@
 package com.shtyka.services;
 
-import com.shtyka.dao.BaseDao;
+import com.shtyka.dao.Dao;
 import com.shtyka.dao.exceptions.DaoException;
 import com.shtyka.services.exceptions.ServiceException;
-import com.shtyka.util.HibernateUtil;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 
+@Service
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class BaseService<T> implements IService<T> {
     protected final String TRANSACTION_SUCCESS = "Transaction is completed successfully";
     protected final String TRANSACTION_FAIL = "Transaction failed. Error in service.";
-    protected static HibernateUtil util = HibernateUtil.getHibernateUtil();
     private final Logger log = Logger.getLogger(BaseService.class);
-    private BaseDao baseDao;
+    private Dao<T> baseDao;
+
+    public BaseService() {
+    }
+    
+    @Autowired
+    public BaseService(Dao<T> baseDao) {
+        this.baseDao = baseDao;
+    }
+
 
     public void delete(Serializable id) throws ServiceException {
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveOrUpdate(T t) throws ServiceException{
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             baseDao.saveOrUpdate(t);
-            transaction.commit();
             log.info(TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL);
             throw new ServiceException(e.getMessage());
         }
     }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public T get(Serializable id) throws ServiceException{
         T t;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             t = (T)baseDao.get(id);
-            transaction.commit();
             log.info(TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL);
             throw new ServiceException(e.getMessage());
         }

@@ -1,6 +1,6 @@
 package com.shtyka.services.serviceImpl;
 
-import com.shtyka.dao.daoImpl.OrderDaoImpl;
+import com.shtyka.dao.OrderDao;
 import com.shtyka.dao.exceptions.DaoException;
 import com.shtyka.entity.Menu;
 import com.shtyka.entity.Order;
@@ -9,94 +9,78 @@ import com.shtyka.services.BaseService;
 import com.shtyka.services.OrderService;
 import com.shtyka.services.exceptions.ServiceException;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
 
+@Service
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class OrderServiceImpl extends BaseService<Order> implements OrderService<Order>{
     private final Logger log = Logger.getLogger(OrderServiceImpl.class);
-    private OrderDaoImpl orderDao;
-    private static OrderServiceImpl orderService;
+    private OrderDao orderDao;
 
-    public OrderServiceImpl(){}
-    public static synchronized OrderServiceImpl getOrderServiceImpl() {
-        if (orderService == null) {
-            orderService = new OrderServiceImpl();
-        }
-        return orderService;
+    @Autowired
+    public OrderServiceImpl(OrderDao orderDao){
+        this.orderDao = orderDao;
     }
-    @Override
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Order> findClientOrder(Integer userId) throws ServiceException {
         List<Order> orders;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             orders = orderDao.findClientOrder(userId);
-            transaction.commit();
             log.info(orders + TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL, e);
             throw new ServiceException(TRANSACTION_FAIL, e);
         }
         return orders;
     }
-    @Override
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void delete(Serializable id) throws ServiceException {
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             orderDao.delete(id);
-            transaction.commit();
             log.info(id + TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL, e);
             throw new ServiceException(TRANSACTION_FAIL, e);
         }
     }
 
-    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Order createByMenu(Menu menu, User user) throws ServiceException {
         Order order;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
-            order = orderDao.createByMenu(menu, user);
-            transaction.commit();
+            order = (Order) orderDao.createByMenu(menu, user);
             log.info(order + TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL);
             throw new ServiceException(e.getMessage());
         }
         return order;
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Order> findAll() throws ServiceException {
         List<Order> orders;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
+
             orders = orderDao.findAll();
-            transaction.commit();
             log.info(orders);
             log.info(TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL);
             throw new ServiceException(e.getMessage());
         }
         return orders;
     }
 
-    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Order get(Serializable id) throws ServiceException {
         return null;
     }

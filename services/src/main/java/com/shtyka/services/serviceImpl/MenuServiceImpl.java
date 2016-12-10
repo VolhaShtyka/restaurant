@@ -7,8 +7,6 @@ import com.shtyka.services.BaseService;
 import com.shtyka.services.MenuService;
 import com.shtyka.services.exceptions.ServiceException;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -23,100 +21,74 @@ import java.util.List;
 public class MenuServiceImpl extends BaseService<Menu> implements MenuService<Menu>{
     private final Logger log = Logger.getLogger(MenuServiceImpl.class);
     private MenuDao menuDao;
-    private static MenuServiceImpl menuService;
 
     @Autowired
     public MenuServiceImpl(MenuDao menuDao){this.menuDao = menuDao;}
 
-
-//    public static synchronized MenuServiceImpl getMenuServiceImpl() {
-//        if (menuService == null) {
-//            menuService = new MenuServiceImpl();
-//        }
-//        return menuService;
-//    }
-
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Menu> findAll(int recordsPerPage, int currentPage) throws ServiceException {
         List<Menu> menu;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             menu = menuDao.findAll(recordsPerPage, currentPage);
-            transaction.commit();
             log.info(menu + TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL, e);
             throw new ServiceException(TRANSACTION_FAIL, e);
         }
         return menu;
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Menu> findAll(int recordsPerPage, int currentPage,Integer minPrice, Integer maxPrice) throws ServiceException {
         List<Menu> menu;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             menu = menuDao.findAll(recordsPerPage, currentPage, minPrice, maxPrice);
-            transaction.commit();
             log.info(menu + TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL, e);
             throw new ServiceException(TRANSACTION_FAIL, e);
         }
         return menu;
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Menu> findAll(int recordsPerPage, int currentPage,Integer minPrice, Integer maxPrice, Integer minWeight, Integer maxWeight) throws ServiceException {
         List<Menu> menu;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             menu = menuDao.findAll(recordsPerPage, currentPage, minPrice, maxPrice, minWeight, maxWeight);
-            transaction.commit();
             log.info(menu + TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL, e);
             throw new ServiceException(TRANSACTION_FAIL, e);
         }
         return menu;
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Menu> findAll() throws ServiceException {
         List<Menu> menu;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             menu = menuDao.findAll();
-            transaction.commit();
             log.info(menu + TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL, e);
             throw new ServiceException(TRANSACTION_FAIL, e);
         }
         return menu;
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public int getNumberOfPages(int recordsPerPage) throws ServiceException {
         int numberOfPages;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             Long numberOfRecords = menuDao.getAmount();
             numberOfPages = (int) Math.ceil(numberOfRecords * 1.0 / recordsPerPage);
-            transaction.commit();
             log.info(numberOfPages);
             log.info(TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL);
             throw new ServiceException(e.getMessage());
         }
@@ -124,43 +96,37 @@ public class MenuServiceImpl extends BaseService<Menu> implements MenuService<Me
     }
 
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Menu findEntityById(Integer id) throws ServiceException {
         Menu menu;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             menu = (Menu) menuDao.findEntityById(id);
-            transaction.commit();
             log.info(menu + TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL);
             throw new ServiceException(e.getMessage());
         }
         return menu;
     }
 
-
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Integer getNumberPageWithFilter(Integer minPrice, Integer maxPrice, Integer minWeight, Integer maxWeight) throws ServiceException {
         Integer amount;
         Integer numberOfPages;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
+
             amount = (int) (long)menuDao.getNumberPageWithFilter(minPrice, maxPrice, minWeight, maxWeight);
             numberOfPages = (int) Math.ceil(amount * 1.0 / 4);
-            transaction.commit();
+
             log.info(amount + TRANSACTION_SUCCESS);
         } catch (DaoException e) {
-            transaction.rollback();
             log.error(TRANSACTION_FAIL, e);
             throw new ServiceException(TRANSACTION_FAIL, e);
         }
         return numberOfPages;
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Menu> sortingMenu(final List<Menu> menus, int numberSort) throws ServiceException{
         List menu = menus;
         switch (numberSort){

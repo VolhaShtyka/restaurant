@@ -12,6 +12,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class OrderDaoImpl extends BaseDao<Order> implements OrderDao<Order>{
     private static final String HQL_SELECT_ALL_MEALNAME = "FROM Order WHERE clientId= :id";
     private Session session;
 
+    @Autowired
     public OrderDaoImpl (SessionFactory sessionFactory){
         super(sessionFactory);
         session = sessionFactory.openSession();

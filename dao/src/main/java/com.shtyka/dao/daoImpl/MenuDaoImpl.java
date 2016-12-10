@@ -30,11 +30,13 @@ public class MenuDaoImpl extends BaseDao<Menu> implements MenuDao<Menu> {
     public MenuDaoImpl (SessionFactory sessionFactory){
         super(sessionFactory);
     }
+
+
     @Override
     public Menu findEntityById(Integer id) throws DaoException {
         Menu menu;
         try {
-            Query query = util.getSession().createQuery(HQL_SELECT_MENU);
+            Query query = getSession().createQuery(HQL_SELECT_MENU);
             query.setParameter("id", id);
             menu = (Menu) query.uniqueResult();
             log.info(menu);
@@ -49,7 +51,7 @@ public class MenuDaoImpl extends BaseDao<Menu> implements MenuDao<Menu> {
         List<Menu> results;
         try {
 
-                Criteria criteria = util.getSession().createCriteria(Menu.class);
+                Criteria criteria = getSession().createCriteria(Menu.class);
                 criteria.setFirstResult((currentPage - 1) * recordsPerPage);
                 criteria.setMaxResults(recordsPerPage);
                 results = criteria.list();
@@ -65,7 +67,7 @@ public class MenuDaoImpl extends BaseDao<Menu> implements MenuDao<Menu> {
         List<Menu> results;
         try {
 
-            Criteria criteria = util.getSession().createCriteria(Menu.class);
+            Criteria criteria = getSession().createCriteria(Menu.class);
             criteria.add(Restrictions.between("price", minPrice, maxPrice));
             criteria.setFirstResult((currentPage - 1) * recordsPerPage);
             criteria.setMaxResults(recordsPerPage);
@@ -82,7 +84,7 @@ public class MenuDaoImpl extends BaseDao<Menu> implements MenuDao<Menu> {
         List<Menu> results;
         try {
 
-            Criteria criteria = util.getSession().createCriteria(Menu.class);
+            Criteria criteria = getSession().createCriteria(Menu.class);
             criteria.setFirstResult((currentPage - 1) * recordsPerPage);
             criteria.setMaxResults(recordsPerPage);
             criteria.add(Restrictions.between("price", minPrice, maxPrice));
@@ -101,7 +103,7 @@ public class MenuDaoImpl extends BaseDao<Menu> implements MenuDao<Menu> {
     public Long getAmount() throws DaoException {
         Long amount;
         try {
-            Criteria criteria = util.getSession().createCriteria(Menu.class);
+            Criteria criteria = getSession().createCriteria(Menu.class);
             criteria.setProjection(Projections.rowCount());
             criteria.setCacheable(true);
             amount = (Long) criteria.uniqueResult();
@@ -117,7 +119,7 @@ public class MenuDaoImpl extends BaseDao<Menu> implements MenuDao<Menu> {
     public Long getNumberPageWithFilter(Integer minPrice, Integer maxPrice, Integer minWeight, Integer maxWeight) throws DaoException {
         Long amount;
         try {
-            Criteria criteria = util.getSession().createCriteria(Menu.class);
+            Criteria criteria = getSession().createCriteria(Menu.class);
             criteria.add(Restrictions.between("price", minPrice, maxPrice));
             criteria.add(Restrictions.between("weight", minWeight, maxWeight));
 
