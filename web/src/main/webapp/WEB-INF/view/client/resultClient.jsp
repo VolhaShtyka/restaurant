@@ -10,7 +10,7 @@
 </head>
 <body>
 	<h1><span style="color: #b0cd2e; "><s:message code="pageClient"/></span></h1>
-	<a href="ServletRestaurant?command=logout"><s:message code="logout"/>"</a>
+	<a href="http://localhost:8080/projectRestaurant/logout"><s:message code="logout"/></a>
 	<table class="rwd-table">
 		<tr>
 			<th><s:message code="name"/></th>
@@ -22,7 +22,7 @@
 			<td data-th="Movie Title">${user}</td>
 			<td data-th="Genre">${table}</td>
 			<td align="center" data-th="Year">${time}</td>
-			<td data-th="Gross">${sum}${cost}<br><a href="ServletRestaurant?command=countClient">${countCLient}</a></td>
+			<td data-th="Gross">${sum}${cost}<br><a href="http://localhost:8080/projectRestaurant/clients/countClient"><s:message code="countCLient"/></a></td>
 		</tr>
 	</table>
 
@@ -34,17 +34,16 @@
 		</tr>
 
 			<td data-th="Movie Title">
-				<form action="ServletRestaurant" method="post">
+				<form action=http://localhost:8080/projectRestaurant/clients/order >
 					<select multiple name="menuForOrder">
 						<c:forEach var="menu" items="${menus}">
-							<option value="${menu}">№ ${menu}${cost} ${menu.weight} ${unit}</option>
+							<option value="${menu}">№ ${menu}<s:message code="cost"/> ${menu.weight} <s:message code="unit"/></option>
 						</c:forEach>
 					</select>
 					<p>
-						<input placeholder="${commentaries}" name="comment">
+						<input placeholder=<s:message code="commentaries"/> name="comment">
 					</p>
 					<p>
-						<input type="hidden" name="command" value="Order">
 						<input type="submit" value=<s:message code="orderCommand"/>>
 					</p>
 					${errorChooseCheked}
@@ -52,9 +51,8 @@
 			</td>
 
         <th>
-            <form method="post" action="ServletRestaurant">
-                <input type="hidden" name="command" value="sorting"/>
-                <input name="sortPriceOrWeight" type="submit" value="1" style="width: 15%"/> ${priceASC}<br>
+            <form action=http://localhost:8080/projectRestaurant/clients/sorting>
+                <input name="sortPriceOrWeight" type="submit" value="1"/> ${priceASC}<br>
                 <input name="sortPriceOrWeight" type="submit" value="2"/> ${priceDESC}<br>
                 <input name="sortPriceOrWeight" type="submit" value="3"/> ${weightASC}<br>
                 <input name="sortPriceOrWeight" type="submit" value="4"/> ${weightDESC}<br>
@@ -63,9 +61,7 @@
 
 
             <td>
-            <form method="post" action="ServletRestaurant" >
-
-                <input type="hidden" name="command" value="sort"/>
+            <form action=http://localhost:8080/projectRestaurant/clients/sort>
                 <div style="width: 150%; margin-left: 3%"><s:message code="choosePrice"/>
                 <input name="minPrice" type="text" value=""/>
                 <input name="maxPrice" type="text" value=""/><br></div>
@@ -74,8 +70,7 @@
                 <input name="maxWeight" type="text" value=""/><br>
                 <input type="submit" value=<s:message code="show"/> />
             </form>
-            <form method="post" action="ServletRestaurant">
-                <input type="hidden" name="command" value="clearSort"/>
+            <form action=http://localhost:8080/projectRestaurant/clients/clearSort>
                 <input type="submit" value=<s:message code="reset"/> />
             </form>
             </td>
@@ -86,7 +81,7 @@
 			<tr>
 				<c:if test="${currentPage != 1}">
 					<td>
-						<a href="ServletRestaurant?command=client&currentPage=${currentPage - 1}">Предыдущая
+						<a href="http://localhost:8080/projectRestaurant/clients/client?currentPage=${currentPage - 1}">Предыдущая
 						</a>
 					</td>
 				</c:if>
@@ -97,18 +92,18 @@
 						</c:when>
 						<c:otherwise>
 							<td>
-								><a href="ServletRestaurant?command=client&currentPage=${i}">${i}</a>
+								><a href="http://localhost:8080/projectRestaurant/clients/client?currentPage=${i}">${i}</a>
 							</td>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
 				<c:if test="${currentPage lt numberOfPages}">
 					<td>
-						<a href="ServletRestaurant?command=client&currentPage=${currentPage + 1}">Следующая</a>
+						<a href="http://localhost:8080/projectRestaurant/clients/client?currentPage=${currentPage + 1}">Следующая</a>
 					</td>
 				</c:if>
 			</tr>
 		</table>
-	<jsp:include page="order.jsp" />	
+	<jsp:include page="order.jsp" />
 </body>
 </html>

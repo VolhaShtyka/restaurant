@@ -12,6 +12,7 @@ import com.shtyka.web.webManager.MessageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +26,7 @@ import java.util.ResourceBundle;
 
 
 @Controller
+@RequestMapping("/admins")
 public class AdminController {
 
     @Autowired
@@ -72,11 +74,11 @@ public class AdminController {
             return ConfigurationManager.getProperty("path.page.errorDatabase");
 //			request.setAttribute("errorDatabase", MessageManager.getProperty("message.errorDatabase"));
         }
-        return "resultAdmin";
+        return "admin/resultAdmin";
     }
 
 
-    @RequestMapping(value = "/adminfilter", method = RequestMethod.GET)
+    @RequestMapping(value = "/adminFilter", method = RequestMethod.GET)
     public String getAdminFilterOfClients(Model model, @ModelAttribute("currentPage") int currentPage,
                                           @RequestParam(value = "minPrice") Integer minFilterPrice,
                                           @RequestParam(value = "maxPrice") Integer maxFilterPrice,
@@ -122,13 +124,14 @@ public class AdminController {
 
 
     @RequestMapping(value = "/allowance", method = RequestMethod.GET)
-    public String getAllowance(Model model, @RequestParam(value = "sum") double sumOrder) {
+    public ModelMap getAllowance(ModelMap model, @RequestParam(value = "sum") double sumOrder) {
+		sumOrder = sumOrder/100*105;
         model.addAttribute("sum", sumOrder);
-        return ConfigurationManager.getProperty("path.page.admin");
+        return model;
     }
 
 
-    @RequestMapping(value = "/clearsortadmin", method = RequestMethod.GET)
+    @RequestMapping(value = "/clearSortAdmin", method = RequestMethod.GET)
     public String clearSort(Model model) throws ServiceException {
         int recordsPerPage = 1;
         List<User> users = userService.findAll();
@@ -144,8 +147,8 @@ public class AdminController {
         return ConfigurationManager.getProperty("path.page.admin");
     }
 
-    @RequestMapping(value = "/clientdetails", method = RequestMethod.GET)
-    public String getDetailsAboutClient(Model model, @RequestParam(value = "user") String userName,
+    @RequestMapping(value = "/clientDetails", method = RequestMethod.GET)
+    public String getDetailsAboutClient(ModelMap model, @RequestParam(value = "user") String userName,
                                         @ModelAttribute("comment") String comment) throws ServiceException {
 //        final Logger log = Logger.getLogger(ClientDetailsCommand.class);
         int sum = 0;
@@ -162,7 +165,7 @@ public class AdminController {
             for (int i = 0; i < orders.size(); i++) {
                 sum += userService.countOrder(user);
             }
-            model.addAttribute("users", clients);
+            model.addAttribute("users", user);
             model.addAttribute("orders", orders);
             model.addAttribute("sum", sum);
             model.addAttribute("userid", user.getId());
@@ -174,11 +177,11 @@ public class AdminController {
             return ConfigurationManager.getProperty("path.page.errorDatabase");
 //			request.setAttribute("errorDatabase", MessageManager.getProperty("message.errorDatabase"));
         }
-        return ConfigurationManager.getProperty("path.page.client");
+        return "admin/resultAdminDetails";
     }
 
 
-    @RequestMapping(value = "/filterclients", method = RequestMethod.GET)
+    @RequestMapping(value = "/filterClients", method = RequestMethod.GET)
     public String getClientPageWithFilter(Model model, @RequestParam(value = "minFilterPrice") Integer minFilterPrice,
                                           @RequestParam(value = "maxFilterPrice") Integer maxFilterPrice,
                                           @RequestParam(value = "minTableNumber") Integer maxFilterTableNumber,
@@ -212,7 +215,7 @@ public class AdminController {
 //			requestContent.setAttribute("minTableNumber", minFilterTableNumber);
 //			requestContent.setAttribute("maxTableNumber", maxFilterTableNumber);
 
-        return ConfigurationManager.getProperty("path.page.admin");
+        return "admin/resultAdmin";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
@@ -222,21 +225,19 @@ public class AdminController {
         userService.delete(administatortDAO.getId());
 //        model..removeAttribute("users");
 //        requestContent.removeAttribute("orders");
-        return ConfigurationManager.getProperty("path.page.admin");
+        return "admin/resultAdmin";
     }
 
 
     @RequestMapping(value = "/ready", method = RequestMethod.GET)
     public String setReadyOrder(Model model) throws ServiceException {
         String page = null;
-        ResourceBundle property = ResourceBundle
-                .getBundle(Locale.getDefault().getLanguage().toUpperCase(), Locale.getDefault());
         List<User> clients = userService.findAll();
         List<Order> orders = orderService.findAll();
         for (Order order1 : orders) {
-            if (order1.getStatusOrder().equals(property.getString(StatusMeal.CHEKED.name()))) {
+            if (order1.getStatusOrder().equals(StatusMeal.CHEKED.name())) {
                 model.addAttribute("errorCookingMessage", MessageManager.getProperty("message.cookingerror"));
-                page = ConfigurationManager.getProperty("path.page.main");
+                page = "admin/resultAdminDetails";
             } else {
                 order1.setStatusOrder(StatusMeal.READY.name());
                 orderService.saveOrUpdate(order1);
@@ -247,19 +248,40 @@ public class AdminController {
         return page;
     }
 
-    @RequestMapping(value = "/newmenu", method = RequestMethod.GET)
-    public String createNewMenu(Model model) {
-        return ConfigurationManager.getProperty("path.page.menu");
+    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    public ModelMap getOrdersSum(ModelMap model) throws ServiceException {
+        ResourceBundle property = ResourceBundle.getBundle(Locale.getDefault().getLanguage().toUpperCase(), Locale.getDefault());
+        List <User> clients = userService.findAll();
+        List <Order> orders = orderService.findClientOrder(clients.get(0).getId());
+
+        for (Order order1 : orders) {
+            if (order1.getStatusOrder().equals(property.getString(StatusMeal.CHEKED.name()))) {
+                model.addAttribute("errorCookingCheked", MessageManager.getProperty("message.errorCookingCheked"));
+            } else {
+                order1.setStatusOrder(StatusMeal.CHEKED.name());
+                orderService.saveOrUpdate(order1);
+            }
+        }
+        orders = orderService.findClientOrder(clients.get(0).getId());
+        model.addAttribute("orders", orders);
+        model.addAttribute("sum", "");
+        return model;
+    }
+
+    @RequestMapping(value = "/newMenu", method = RequestMethod.GET)
+    public String createNewMenu() {
+        return "admin/createMenu";
     }
 
     @RequestMapping(value = "/discount", method = RequestMethod.GET)
-    public String getDiscount(Model model, @ModelAttribute("sum")  double sumOrder) {
+    public ModelMap getDiscount(ModelMap model, @ModelAttribute("sum")  double sumOrder) {
+		sumOrder = sumOrder/100*85;
         model.addAttribute("sum", sumOrder);
-        return  ConfigurationManager.getProperty("path.page.admin");
+        return model;
     }
 
-    @RequestMapping(value = "/moreinfo", method = RequestMethod.GET)
-    public String getMoreInfo(Model model) {
-        return ConfigurationManager.getProperty("path.page.more");
+    @RequestMapping(value = "/moreInfo", method = RequestMethod.GET)
+    public String getMoreInfo() {
+        return "admin/moreInfo";
     }
 }

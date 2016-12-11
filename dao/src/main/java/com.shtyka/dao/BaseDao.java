@@ -16,35 +16,16 @@ import java.util.List;
 @Repository
 public class BaseDao<T> implements Dao<T> {
     private static Logger log = Logger.getLogger(BaseDao.class);
-
     private SessionFactory sessionFactory;
-
-
     BaseDao(){}
 
     @Autowired
     public BaseDao(SessionFactory sessionFactory) {
-
         this.sessionFactory = sessionFactory;
     }
-
-
     public Session getSession(){
         return sessionFactory.getCurrentSession();
     }
-//    @Autowired
-//    public BaseDao(SessionFactory sessionFactory) {
-//        this.sessionFactory = sessionFactory;
-//        this.session = sessionFactory.openSession();
-//    }
-
-
-//    public static synchronized BaseDao getBaseDao() {
-//        if (baseDao == null) {
-//            baseDao = new BaseDao();
-//        }
-//        return baseDao;
-//    }
 
     @Override
     public void saveOrUpdate(T t) throws DaoException {

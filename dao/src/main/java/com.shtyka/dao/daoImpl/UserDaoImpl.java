@@ -27,8 +27,6 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao<User>{
     private static final String HQL_SELECT_USERS_WITH_FILTER_TABLE_DESC = "FROM User WHERE tableNumber BETWEEN :minTableNumber AND :maxTableNumber ORDER BY tableNumber DESC";
     private static final String HQL_SELECT_USERS_WITH_FILTER = "FROM User WHERE tableNumber BETWEEN :minTableNumber AND :maxTableNumber";
     private final Logger log = Logger.getLogger(UserDaoImpl.class);
-    private Session session;
-
 
     UserDao userDao;
 
@@ -36,7 +34,6 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao<User>{
     @Autowired
     public UserDaoImpl (SessionFactory sessionFactory){
         super(sessionFactory);
-        session = sessionFactory.openSession();
     }
 
     @Override
@@ -87,8 +84,7 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao<User>{
         Integer administrator = 1;
         String loginStatus = "guest";
         try {
-            Session session = getSession();
-            Query query = session.createQuery(HQL_ADMIN_OR_USER);
+            Query query = getSession().createQuery(HQL_ADMIN_OR_USER);
             query.setParameter("login", enterLogin);
             query.setParameter("password", enterPassword);
             user = (User) query.uniqueResult();

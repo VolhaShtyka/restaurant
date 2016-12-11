@@ -17,6 +17,7 @@ public class BaseService<T> implements IService<T> {
     protected final String TRANSACTION_SUCCESS = "Transaction is completed successfully";
     protected final String TRANSACTION_FAIL = "Transaction failed. Error in service.";
     private final Logger log = Logger.getLogger(BaseService.class);
+
     private Dao<T> baseDao;
 
     public BaseService() {

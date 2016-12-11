@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<form action=http://localhost:8080/projectRestaurant/login name="loginForm" class="login" method="post">
+<form action=http://localhost:8080/projectRestaurant/login class="login" method="post">
     <s:message code="loginQuest"/>
     <input name="login" type="text" value="" class="login-input" /> <br>
     <s:message code="passwordQuest"/>

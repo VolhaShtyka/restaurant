@@ -16,17 +16,13 @@
 		</tr>
 		<tr>
 			<td data-th="Movie Title">
-				<form action="ServletRestaurant" method="post">
+				<form action=http://localhost:8080/projectRestaurant/clients/cooking>
 					<c:forEach var="order" items="${orders}">
-					${nameMeal}			
 					<p>${orderNumber}${order}</p>
 					</c:forEach>
-					
-					<input type="hidden" name="command" value="Cooking">
 					<input type="submit" value="<s:message code="cookingCommand"/>">
 					</form>
-					<form action="ServletRestaurant" method="post">
-					<input type="hidden" name="command" value="Clear">
+					<form action=http://localhost:8080/projectRestaurant/clients/clear>
 					<input	type="submit" value="<s:message code="clearCommand"/>"><br>
 					${errorCookingMessage}
 				</form>

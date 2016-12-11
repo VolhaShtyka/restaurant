@@ -84,4 +84,16 @@ public class OrderServiceImpl extends BaseService<Order> implements OrderService
     public Order get(Serializable id) throws ServiceException {
         return null;
     }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveOrUpdate(Order order) throws ServiceException {
+        try {
+            orderDao.saveOrUpdate(order);
+            log.info(TRANSACTION_SUCCESS);
+        } catch (DaoException e) {
+            log.error(TRANSACTION_FAIL);
+            throw new ServiceException(e.getMessage());
+        }
+
+    }
 }

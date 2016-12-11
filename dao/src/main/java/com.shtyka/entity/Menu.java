@@ -47,8 +47,8 @@ public class Menu implements Serializable {
 
     private Integer weight;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_id", insertable = false, updatable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "menu_id", insertable = false, updatable = false)
     public Order getOrder() {
         return order;
     }
@@ -70,6 +70,7 @@ public class Menu implements Serializable {
         if (!(o instanceof Menu)) return false;
         Menu menu = (Menu) o;
         if (!mealName.equals(menu.mealName)) return false;
+        if (!nameen.equals(menu.nameen)) return false;
         if (!menuId.equals(menu.menuId)) return false;
         if (!price.equals(menu.price)) return false;
         if (!weight.equals(menu.weight)) return false;
@@ -80,6 +81,7 @@ public class Menu implements Serializable {
     public int hashCode() {
         int result = menuId.hashCode();
         result = 31 * result + mealName.hashCode();
+		result = 31 * result + nameen.hashCode();
         result = 31 * result + price.hashCode();
         result = 31 * result + weight.hashCode();
         return result;
@@ -97,18 +99,15 @@ public class Menu implements Serializable {
     public void setMenuId(Long menuId) {
         this.menuId = menuId;
     }
-
     public void setMealName(String mealName) {
         this.mealName = mealName;
     }
     public void setNameen(String nameen) {
         this.nameen = nameen;
     }
-
     public void setPrice(Integer price) {
         this.price = price;
     }
-
     public void setWeight(Integer weight) {
         this.weight = weight;
     }
