@@ -4,14 +4,6 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          id="WebApp_ID" version="3.1">
   <display-name>ServletRestaurant</display-name>
-    <!--<servlet>-->
-        <!--<servlet-name>ServletRestaurant</servlet-name>-->
-        <!--<servlet-class>com.shtyka.web.controllers.ServletRestaurant</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>ServletRestaurant</servlet-name>-->
-        <!--<url-pattern>/ServletRestaurant</url-pattern>-->
-    <!--</servlet-mapping>-->
     <!--<filter>-->
         <!--<filter-name>FilterClient</filter-name>-->
         <!--<filter-class>com.shtyka.web.filters.FilterClient</filter-class>-->
@@ -21,9 +13,6 @@
         <!--<url-pattern>/client/*</url-pattern>-->
     <!--</filter-mapping>-->
 
-    <!--<welcome-file-list>-->
-        <!--<welcome-file>cool.jsp</welcome-file>-->
-    <!--</welcome-file-list>-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
@@ -44,6 +33,16 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <!--<listener>-->
     <!--<listener-class>net.sf.ehcache.constructs.web.ShutdownListener</listener-class>-->

@@ -15,40 +15,39 @@
     <tr>
         <th>${name}
             <form action=http://localhost:8080/projectRestaurant/admins/adminFilter>
-                <button name="command" value="adminFilter">
+                <button name="upOrDown" value="nameUp">
                     <img src=http://localhost:8080/projectRestaurant/css/up.png style="vertical-align: middle">
-                    <input type="hidden" name="upPrice" value="nameUp"/>
                 </button>
             </form>
             <form action=http://localhost:8080/projectRestaurant/admins/adminFilter>
-                <button name="command" value="adminFilter">
+                <button name="upOrDown" value="nameDown">
                     <img src=http://localhost:8080/projectRestaurant/css/down.png style="vertical-align: middle">
-                    <input type="hidden" name="upPrice" value="nameDown"/></button>
+                </button>
             </form>
         </th>
         <th>${tableNumber}
             <form action=http://localhost:8080/projectRestaurant/admins/adminFilter>
-                <button name="command" value="adminFilter">
+                <button name="upOrDown" value="tableUp">
                     <img src=http://localhost:8080/projectRestaurant/css/up.png  style="vertical-align: middle">
-                    <input type="hidden" name="upPrice" value="tableUp"/></button>
+                </button>
             </form>
             <form action=http://localhost:8080/projectRestaurant/admins/adminFilter>
-                <button name="command" value="adminFilter">
+                <button name="upOrDown" value="tableDown">
                     <img src=http://localhost:8080/projectRestaurant/css/down.png style="vertical-align: middle">
-                    <input type="hidden" name="upPrice" value="tableDown"/></button>
+                </button>
             </form>
             </button>
             </form></th>
         <th>${sumOrder}
             <form action=http://localhost:8080/projectRestaurant/admins/adminFilter>
-                <button name="command" value="adminFilter">
+                <button name="upOrDown" value="sumUp">
                     <img src=http://localhost:8080/projectRestaurant/css/up.png  style="vertical-align: middle">
-                    <input type="hidden" name="upPrice" value="sumUp"/></button>
+                </button>
             </form>
             <form action=http://localhost:8080/projectRestaurant/admins/adminFilter>
-                <button name="command" value="adminFilter">
+                <button name="upOrDown" value="sumDown">
                     <img src=http://localhost:8080/projectRestaurant/css/down.png style="vertical-align: middle">
-                    <input type="hidden" name="upPrice" value="sumDown"/></button>
+                </button>
             </form>
         </th>
         <th><s:message code="more"/></th>

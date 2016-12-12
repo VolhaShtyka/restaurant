@@ -145,25 +145,22 @@ public class UserServiceImpl extends BaseService<User> implements UserService<Us
                 if (!clients.contains(user) && sum <= maxPrice && sum >= minPrice) {
                     clients.add(user);
                 }
-                if (ASC.equals("sumUp")) {
-                    for (int i = 0; i < clients.size()-1; i++) {
-                       if(userDao.countOrder(clients.get(i)) > userDao.countOrder(clients.get(i+1))){
-                           User client = clients.get(i+1);
-                           clients.remove(i+1);
-                           clients.add(0, client);
-                       }
+            }
+            if (ASC.equals("sumUp")) {
+                for (int i = 0; i < clients.size()-1; i++) {
+                    if(userDao.countOrder(clients.get(i)) > userDao.countOrder(clients.get(i+1))){
+                        User client = clients.get(i+1);
+                        clients.remove(i+1);
+                        clients.add(0, client);
                     }
-                } else if (ASC.equals("sumDown")) {
-                    for (int i = 0; i < clients.size()-1; i++) {
-                        if(userDao.countOrder(clients.get(i)) < userDao.countOrder(clients.get(i+1))){
-                            User client = clients.get(i+1);
-                            clients.remove(i+1);
-                            clients.add(0, client);
-                        }
+                }
+            } else if (ASC.equals("sumDown")) {
+                for (int i = 0; i < clients.size()-1; i++) {
+                    if(userDao.countOrder(clients.get(i)) < userDao.countOrder(clients.get(i+1))){
+                        User client = clients.get(i+1);
+                        clients.remove(i+1);
+                        clients.add(0, client);
                     }
-
-                } else {
-                    clients.add(user);
                 }
             }
             log.info(TRANSACTION_SUCCESS);

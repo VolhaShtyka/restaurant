@@ -138,28 +138,12 @@ public class ClientController {
 	@RequestMapping(value = "/sort", method = RequestMethod.GET)
 	public String getClientPageWithSort(Model model, @RequestParam(value = "currentPage", defaultValue = "1", required = false) int currentPage,
 										@RequestParam(value = "minPrice", defaultValue = "0", required = false) Integer minPrice,
-										@RequestParam(value = "maxPrice", required = false) Integer maxPrice,
+										@RequestParam(value = "maxPrice", defaultValue = "1000",required = false) Integer maxPrice,
 										@RequestParam(value = "minWeight", defaultValue = "0", required = false) Integer minWeight,
-										@RequestParam(value = "maxWeight", required = false) Integer maxWeight,
+										@RequestParam(value = "maxWeight", defaultValue = "1000",required = false) Integer maxWeight,
 										@RequestParam(value = "recordsPerPage", defaultValue = "4", required = false) int recordsPerPage) throws ServiceException {
 		List<Menu> menus = new ArrayList<>();
 		int numberOfPages;
-		if(maxPrice == null){
-			maxPrice = 0;
-			for (Menu menu:menus){
-				if(menu.getPrice()>maxPrice){
-					maxPrice = menu.getPrice();
-				}
-			}
-		}
-		if(maxWeight == null){
-			maxWeight = 0;
-			for (Menu menu:menus){
-				if(menu.getWeight()>maxWeight){
-					maxWeight = menu.getWeight();
-				}
-			}
-		}
 		if (minPrice != null || maxPrice != null || minWeight != null || maxWeight != null) {
 			menus = menuService.findAll(recordsPerPage, currentPage, minPrice, maxPrice, minWeight, maxWeight);
 			numberOfPages = menuService.getNumberPageWithFilter(minPrice, maxPrice, minWeight, maxWeight);
