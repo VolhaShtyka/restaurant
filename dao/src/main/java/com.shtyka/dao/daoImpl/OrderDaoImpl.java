@@ -27,9 +27,6 @@ public class OrderDaoImpl extends BaseDao<Order> implements OrderDao<Order>{
     public OrderDaoImpl (SessionFactory sessionFactory){
         super(sessionFactory);
     }
-//    public Session getSession(){
-//        return sessionFactory.getCurrentSession();
-//    }
 
     @Override
     public List<Order> findClientOrder(Integer id) throws DaoException {
@@ -38,7 +35,7 @@ public class OrderDaoImpl extends BaseDao<Order> implements OrderDao<Order>{
             Query query = getSession().createQuery(HQL_SELECT_ALL_MEALNAME);
             query.setParameter("id", id);
             orders = query.list();
-            log.info(orders);
+            log.info("FindClientOrder" +orders);
         }catch (HibernateException e){
             log.info("Error in DAO findEntityById");
             throw new DaoException(e);

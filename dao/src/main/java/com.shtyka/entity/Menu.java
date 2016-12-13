@@ -1,6 +1,8 @@
 package com.shtyka.entity;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Proxy;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,7 +21,6 @@ public class Menu implements Serializable {
     public Long getMenuId() {
         return menuId;
     }
-
     private Long menuId;
 
     @Column(name = "meal_name")
@@ -44,11 +45,10 @@ public class Menu implements Serializable {
     public Integer getWeight() {
         return weight;
     }
-
     private Integer weight;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "menu_id", insertable = false, updatable = false)
+	@JoinColumn(name = "menu_id",insertable=false, updatable=false)
     public Order getOrder() {
         return order;
     }

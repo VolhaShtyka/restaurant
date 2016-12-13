@@ -1,7 +1,8 @@
 package com.shtyka.entity;
 
-import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Proxy;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.util.Locale;
 @Entity
 @Table(name = "orders")
 @GenericGenerator(name = "PK", strategy = "increment")
+@Lazy(value = false)
 public class Order implements Serializable {
     private static final long serialVersionUID = 3L;
 
@@ -20,31 +22,27 @@ public class Order implements Serializable {
     public Integer getOrderId() {
         return orderId;
     }
-
     private Integer orderId;
 
     @Column(name = "user_id")
     public Integer getClientId() {
         return clientId;
     }
-
     private Integer clientId;
 
     @Column(name = "menu_id")
     public Long getMenuId() {
         return menuId;
     }
-
     private Long menuId;
 
     @Column(name = "status_order")
     public String getStatusOrder() {
         return statusOrder;
     }
-
     private String statusOrder;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.PERSIST)
 	public List<Menu> getMenus() {
         return menus;
     }
@@ -63,7 +61,7 @@ public class Order implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Menu)) return false;
+        if (!(o instanceof Order)) return false;
         Order order = (Order) o;
         if (!menuId.equals(order.getMenuId())) return false;
         if (!clientId.equals(order.getClientId())) return false;

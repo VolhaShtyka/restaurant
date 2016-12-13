@@ -1,16 +1,18 @@
 package com.shtyka.entity;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+//@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @GenericGenerator(name = "PK", strategy = "increment")
+@Lazy(value = false)
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -48,21 +50,14 @@ public class User implements Serializable {
 
 
     public User(){}
-    public User(int i, int i1, int i2, String michel, int i3, List<Menu> menu){}
 
-//    public User(String name, String password, String roleName){
-//        this.password = password;
-//        this.name=name;
-//        this.roleName = roleName;
-//    }
-//
-//    public User(String password, Integer id, String name, int tableNumber, String roleName){
-//        this.password = password;
-//        this.id = id;
-//        this.name=name;
-//        this.tableNumber=tableNumber;
-//        this.roleName = roleName;
-//    }
+    public User(String password, Integer id, String name, int tableNumber, Integer roleId){
+        this.password = password;
+        this.id = id;
+        this.name=name;
+        this.tableNumber=tableNumber;
+        this.roleId = roleId;
+    }
 
 
     public void setId(Integer id) {
@@ -93,7 +88,6 @@ public class User implements Serializable {
         if (!password.equals(user.password)) return false;
         if (!id.equals(user.id)) return false;
         if (!tableNumber.equals(user.tableNumber)) return false;
-        //if (!roleName.equals(user.roleName)) return false;
         if (!roleId.equals(user.roleId)) return false;
         return true;
     }
@@ -103,7 +97,6 @@ public class User implements Serializable {
         result = 31 * result + name.hashCode();
         result = 31 * result + password.hashCode();
         result = 31 * result + tableNumber.hashCode();
-        //result = 31 * result + roleName.hashCode();
         result = 31 * result + roleId.hashCode();
         return result;
     }

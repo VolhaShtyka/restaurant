@@ -43,4 +43,17 @@
         <property name="prefix" value="/WEB-INF/view/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <!--<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"-->
+          <!--p:defaultLocale="ru"-->
+          <!--p:cookieName="LocaleCookie"-->
+          <!--p:cookieMaxAge="3600"-->
+    <!--/>-->
+
+    <!--<mvc:interceptors>-->
+        <!--<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"-->
+              <!--p:paramName="locale"-->
+        <!--/>-->
+    <!--</mvc:interceptors>-->
+
 </beans>
