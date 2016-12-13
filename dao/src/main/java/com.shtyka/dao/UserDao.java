@@ -21,7 +21,7 @@ public interface UserDao<User> extends Dao<User> {
 			 * from the database to the similarity
 			 * with the data entered by md5
 			 */
-	String checkLoginAdmin(String enterLogin, String enterPassword) throws DaoException;
+	String checkLoginAdmin(String enterLogin) throws DaoException;
 
 	int getNumberPageWithFilter(Integer minTableNumber, Integer maxTableNumber) throws DaoException;
 

@@ -8,13 +8,27 @@
 </head>
 <body>
 
-<form action=http://localhost:8080/projectRestaurant/login class="login" method="post">
-    <s:message code="loginQuest"/>
-    <input name="login" type="text" value="" class="login-input" /> <br>
-    <s:message code="passwordQuest"/>
-    <input name="password" type="password" value="" class="login-input" /><br>
-    ${errorLoginPasswordMessage} <br>
-    <input type="submit"  value="<s:message code="logIn"/>"/>
+<%--<form action=http://localhost:8080/projectRestaurant/login class="login" method="post">--%>
+    <%--<s:message code="loginQuest"/>--%>
+    <%--<input name="login" type="text" value="" class="login-input" /> <br>--%>
+    <%--<s:message code="passwordQuest"/>--%>
+    <%--<input name="password" type="password" value="" class="login-input" /><br>--%>
+    <%--${errorLoginPasswordMessage} <br>--%>
+    <%--<input type="submit"  value="<s:message code="logIn"/>"/>--%>
+<%--</form>--%>
+
+<form method="post" class="login" action="<c:url value='/j_spring_security_check'/>">
+    <fieldset>
+            <s:message code="loginQuest"/>
+            <input class="login-input" id="login" name="login"
+                   type="text"/><br>
+
+            <s:message code="passwordQuest"/>
+            <input class="login-input" id="password" name="password"
+                   type="password"/><br>
+        <input type="submit" value="<s:message code="logIn"/>"/>
+
+    </fieldset>
 </form>
 
 	<table class="login" >

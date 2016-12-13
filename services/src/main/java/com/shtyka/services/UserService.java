@@ -9,6 +9,6 @@ public interface UserService<User> extends IService<User>{
     List<User> findAll() throws ServiceException;
     List<User> findAll(int recordsPerPage, int currentPage, Integer minPrice, Integer maxPrice, Integer minTableNumber, Integer maxTableNumber, String ASC) throws ServiceException;
     int countOrder(User user) throws ServiceException;
-    String checkLoginAdmin(String enterLogin, String enterPassword) throws ServiceException;
+    String checkLoginAdmin(String enterLogin) throws ServiceException;
     Integer getNumberPageWithFilter(Integer minPrice, Integer maxPrice, Integer minTableNumber, Integer maxTableNumber) throws ServiceException;
 }

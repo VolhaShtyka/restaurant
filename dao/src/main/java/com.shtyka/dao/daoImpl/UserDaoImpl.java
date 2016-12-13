@@ -6,7 +6,6 @@ import com.shtyka.dao.exceptions.DaoException;
 import com.shtyka.entity.Menu;
 import com.shtyka.entity.Order;
 import com.shtyka.entity.User;
-import com.shtyka.util.LoginMd5;
 import org.apache.log4j.Logger;
 import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import java.util.List;
 @Repository
 public class UserDaoImpl extends BaseDao<User> implements UserDao<User>{
     private static final String HQL_SELECT_CLIENT = "FROM User WHERE name= :name";
-    private final static String HQL_ADMIN_OR_USER = "FROM User WHERE name= :login AND password = :password";
+    private final static String HQL_ADMIN_OR_USER = "FROM User WHERE name= :login";
     private static final String HQL_SELECT_MENU = "FROM Menu WHERE menu_id= :id";
     private static final String HQL_SELECT_ALL_ORDERS = "FROM Order WHERE clientId= :id";
     private static final String HQL_SELECT_USERS_WITH_FILTER_NAME_ASC = "FROM User WHERE tableNumber BETWEEN :minTableNumber AND :maxTableNumber ORDER BY name ASC";
@@ -78,7 +77,7 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao<User>{
     }
 
     @Override
-    public String checkLoginAdmin(String enterLogin, String enterPassword) throws DaoException {
+    public String checkLoginAdmin(String enterLogin) throws DaoException {
         User user;
         Integer userName = 2;
         Integer administrator = 1;
@@ -86,15 +85,12 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao<User>{
         try {
             Query query = getSession().createQuery(HQL_ADMIN_OR_USER);
             query.setParameter("login", enterLogin);
-            query.setParameter("password", enterPassword);
             user = (User) query.uniqueResult();
             if (user != null) {
                 if (user.getName().equals(enterLogin)
-                        && LoginMd5.md5Custom(user.getPassword()).equals(LoginMd5.md5Custom(enterPassword))
                         && user.getRoleId().equals(administrator)) {
                     loginStatus = "administrator";
                 } else if (user.getName().equals(enterLogin)
-                        && LoginMd5.md5Custom(user.getPassword()).equals(LoginMd5.md5Custom(enterPassword))
                         && user.getRoleId().equals(userName)) {
                     loginStatus = "user";
                 }

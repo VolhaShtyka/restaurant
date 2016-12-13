@@ -2,8 +2,8 @@ package com.shtyka.web.filters;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-public class FilterClient implements Filter {
-    public FilterClient() {}
+public class CustomSuccessHandler implements Filter {
+    public CustomSuccessHandler() {}
 	public void destroy() {}
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
