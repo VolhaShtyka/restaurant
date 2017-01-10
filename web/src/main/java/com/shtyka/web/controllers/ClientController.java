@@ -8,7 +8,6 @@ import com.shtyka.services.MenuService;
 import com.shtyka.services.OrderService;
 import com.shtyka.services.UserService;
 import com.shtyka.services.exceptions.ServiceException;
-import com.shtyka.web.webManager.ConfigurationManager;
 import com.shtyka.web.webManager.MessageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +17,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/clients")
@@ -48,7 +50,7 @@ public class ClientController {
 		} catch (ServiceException e) {
 
 		}
-		return ConfigurationManager.getProperty("path.page.main");
+		return "clients/resultClient";
 	}
 
 
@@ -66,7 +68,7 @@ public class ClientController {
 		orders = orderService.findAll();
 		model.addAttribute("orders", orders);
 		model.addAttribute("sum", 0);
-		return "client/resultClient";
+		return "clients/resultClient";
 
 
 	}
@@ -83,7 +85,7 @@ public class ClientController {
 		model.addAttribute("maxPrice", null);
 		model.addAttribute("minWeight", null);
 		model.addAttribute("maxWeight", null);
-		return "client/resultClient";
+		return "clients/resultClient";
 	}
 
 
@@ -131,7 +133,7 @@ public class ClientController {
 		httpSession.setAttribute("menus", menus);
 		httpSession.setAttribute("orders", orders);
 		httpSession.setAttribute("sum", sum);
-		return "client/resultClient";
+		return "clients/resultClient";
 
 	}
 
@@ -155,7 +157,7 @@ public class ClientController {
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("recordsPerPage", recordsPerPage);
 		model.addAttribute("menus", menus);
-		return "client/resultClient";
+		return "clients/resultClient";
 	}
 
 	@RequestMapping(value = "/cooking", method = RequestMethod.GET)
@@ -169,12 +171,12 @@ public class ClientController {
 				orderService.saveOrUpdate(order1);
 			} else {
 				model.addAttribute("errorCookingMessage", MessageManager.getProperty("message.cookingerror"));
-				page = "client/resultClient";
+				page = "clients/resultClient";
 			}
 		}
 		orders = orderService.findAll();
 		model.addAttribute("orders", orders);
-		page = "client/resultClient";
+		page = "clients/resultClient";
 		return page;
 	}
 
@@ -198,18 +200,18 @@ public class ClientController {
 		}
 		model.addAttribute("orders", orders);
 		model.addAttribute("sum", "0");
-		return "client/resultClient";
+		return "clients/resultClient";
 	}
 
 
 	@RequestMapping(value = "/order", method = RequestMethod.GET)
 	public String getOrders(ModelMap model, @RequestParam(value = "menuForOrder") String menuForOrder,
-							@RequestParam(value = "comment") String comments,
-							@ModelAttribute("userSession") User user) throws ServiceException {
+							@RequestParam(value = "comment", required = false) String comments,
+							@ModelAttribute("userSession") User user,
+							HttpSession session) throws ServiceException {
 		int sum = 0;
 		if (menuForOrder == null) {
 			model.addAttribute("errorChooseCheked", MessageManager.getProperty("message.chooseerror"));
-			// page = ConfigurationManager.getProperty("path.page.main");
 		} else {
 			String[] findId = menuForOrder.split(" ");
 			Integer menuId = Integer.valueOf(findId[0]);
@@ -235,18 +237,19 @@ public class ClientController {
 			model.addAttribute("user", user.getName());
 			model.addAttribute("sum", sum);
 			model.addAttribute("orders", orders);
-			//           comments += requestContent.getParameter("comment") + " ";
+			session.setAttribute("comments", comments);
 		}
-		return "client/resultClient";
+		return "clients/resultClient";
 	}
 
 	@RequestMapping(value = "/sorting", method = RequestMethod.GET)
 	public String setSortMenu(Model model, @RequestParam(value = "sortPriceOrWeight") int sort,
-							  @RequestParam(value = "menus") List<Menu> menus,
-							  @ModelAttribute("user") String userName) throws ServiceException {
+							  @ModelAttribute("user") String userName,
+							  HttpSession session) throws ServiceException {
+		List <Menu> menus = (List<Menu>) session.getAttribute("menus");
 		menus = menuService.sortingMenu(menus, sort);
 		model.addAttribute("menus", menus);
-		return "client/resultClient";
+		return "clients/resultClient";
 
 	}
 }

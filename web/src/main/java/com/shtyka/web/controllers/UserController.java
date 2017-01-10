@@ -20,7 +20,7 @@ public class UserController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index() {
-		return "index";
+		return "default";
 	}
 
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
@@ -47,7 +47,7 @@ public class UserController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(SessionStatus status) throws ServiceException {
 		status.setComplete();
-		return "index";
+		return "default";
 	}
 
 	@RequestMapping(value = "/accessDenied", method = RequestMethod.GET)

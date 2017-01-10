@@ -14,8 +14,8 @@
         <th><s:message code="infoUser"/></th>
     </tr>
     <tr>
-            <td data-th="Movie Title"><s:message code="name"/>: ${user.name}. <s:message code="tableNumber"/>: ${user.tableNumber} <a
-                    href="http://localhost:8080/projectRestaurant/admins/delete"><s:message code="delete"/></a></td>
+            <td data-th="Movie Title"><s:message code="name"/>: ${user}
+            </td>
             <br>
     </tr>
 </table>

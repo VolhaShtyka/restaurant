@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 
 @Rollback
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/testContext.xml")
+@ContextConfiguration(locations = "/test-context.xml")
 @Transactional(transactionManager = "txManager", propagation = Propagation.SUPPORTS)
 public class MenuDaoImplTest {
 	Menu menu = new Menu();
@@ -43,7 +43,6 @@ public class MenuDaoImplTest {
 	public void setUp() throws Exception {
 		menu.setMealName("Draniki");
 		menu.setNameen("Драники");
-//		menu.setOrder(order);
 		menu.setPrice(100);
 		menu.setWeight(200);
 		menuDao.saveOrUpdate(menu);

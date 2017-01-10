@@ -13,7 +13,7 @@
 <h3 style="color: #b0cd2e; "><s:message code="info"/></h3>
 <table class="rwd-table" border="1">
     <tr>
-        <th>${name}
+        <th><s:message code="name"/>
             <form action=http://localhost:8080/projectRestaurant/admins/adminFilter>
                 <button name="upOrDown" value="nameUp">
                     <img src=http://localhost:8080/projectRestaurant/css/up.png style="vertical-align: middle">
@@ -25,7 +25,7 @@
                 </button>
             </form>
         </th>
-        <th>${tableNumber}
+        <th><s:message code="tableNumber"/>
             <form action=http://localhost:8080/projectRestaurant/admins/adminFilter>
                 <button name="upOrDown" value="tableUp">
                     <img src=http://localhost:8080/projectRestaurant/css/up.png  style="vertical-align: middle">
@@ -38,7 +38,7 @@
             </form>
             </button>
             </form></th>
-        <th>${sumOrder}
+        <th><s:message code="sumOrder"/>
             <form action=http://localhost:8080/projectRestaurant/admins/adminFilter>
                 <button name="upOrDown" value="sumUp">
                     <img src=http://localhost:8080/projectRestaurant/css/up.png  style="vertical-align: middle">
@@ -70,7 +70,7 @@
     <tr>
         <c:if test="${currentPage != 1}">
             <td>
-                <a href="http://localhost:8080/projectRestaurant/admins/admin?currentPage=${currentPage - 1}">Предыдущая
+                <a href="http://localhost:8080/projectRestaurant/admins/admin?currentPage=${currentPage - 1}"><s:message code="previous"/>
                 </a>
             </td>
         </c:if>
@@ -88,7 +88,7 @@
         </c:forEach>
         <c:if test="${currentPage lt numberOfPages}">
             <td>
-                <a href="http://localhost:8080/projectRestaurant/admins/admin?currentPage=${currentPage + 1}">Следующая</a>
+                <a href="http://localhost:8080/projectRestaurant/admins/admin?currentPage=${currentPage + 1}"><s:message code="next"/></a>
             </td>
         </c:if>
     </tr>
@@ -97,7 +97,7 @@
 
 <table>
     <form action=http://localhost:8080/projectRestaurant/admins/filterClients>
-        <th style="color: blue; font-size: larger">Отфильтровать по:</th>
+        <th style="color: blue; font-size: larger"><s:message code="filters"/></th>
         <tr>
             <td>
                 Сумме заказа <input name="minPrice" type="number" value=""/>

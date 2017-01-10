@@ -1,8 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <html>
 <head>
+	<tiles:insertAttribute  name="header"/>
 <title>User Page</title>
     <link rel="stylesheet" href="<c:url value="/css/styles.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/normalize.css"/>">
@@ -52,10 +54,10 @@
 
         <th>
             <form action=http://localhost:8080/projectRestaurant/clients/sorting>
-                <input name="sortPriceOrWeight" type="submit" value="1"/> ${priceASC}<br>
-                <input name="sortPriceOrWeight" type="submit" value="2"/> ${priceDESC}<br>
-                <input name="sortPriceOrWeight" type="submit" value="3"/> ${weightASC}<br>
-                <input name="sortPriceOrWeight" type="submit" value="4"/> ${weightDESC}<br>
+                <input name="sortPriceOrWeight" type="submit" value="1"/> <s:message code="priceASC"/><br>
+                <input name="sortPriceOrWeight" type="submit" value="2"/> <s:message code="priceDESC"/><br>
+                <input name="sortPriceOrWeight" type="submit" value="3"/> <s:message code="weightASC"/><br>
+                <input name="sortPriceOrWeight" type="submit" value="4"/> <s:message code="weightDESC"/><br>
             </form>
         </th>
 
@@ -81,7 +83,7 @@
 			<tr>
 				<c:if test="${currentPage != 1}">
 					<td>
-						<a href="http://localhost:8080/projectRestaurant/clients/client?currentPage=${currentPage - 1}">Предыдущая
+						<a href="http://localhost:8080/projectRestaurant/clients/client?currentPage=${currentPage - 1}"><s:message code="previous"/>
 						</a>
 					</td>
 				</c:if>
@@ -99,7 +101,7 @@
 				</c:forEach>
 				<c:if test="${currentPage lt numberOfPages}">
 					<td>
-						<a href="http://localhost:8080/projectRestaurant/clients/client?currentPage=${currentPage + 1}">Следующая</a>
+						<a href="http://localhost:8080/projectRestaurant/clients/client?currentPage=${currentPage + 1}"><s:message code="next"/></a>
 					</td>
 				</c:if>
 			</tr>

@@ -15,10 +15,10 @@
 		<tr>
 			<td data-th="Movie Title">
 				<form action=http://localhost:8080/projectRestaurant/admins/newMenu>
-					<input placeholder=<s:message code="mealNameRU"/> name="mealNameNewRU"><br>
-					<input placeholder=<s:message code="mealNameEN"/> name="mealNameNewEN"><br>
-					<input placeholder=<s:message code="price"/> name="priceNew"><br>
-					<input placeholder=<s:message code="weight"/> name="weightNew"><br>
+					<input type="text" placeholder=<s:message code="mealNameRU"/> name="mealNameNewRU"><br>
+					<input type="text" placeholder=<s:message code="mealNameEN"/> name="mealNameNewEN"><br>
+					<input type="number" placeholder=<s:message code="price"/> name="priceNew"><br>
+					<input type="number" placeholder=<s:message code="weight"/> name="weightNew"><br>
 					<input type="submit" value=<s:message code="newMenu"/>><br>
 				</form>
 			</td>

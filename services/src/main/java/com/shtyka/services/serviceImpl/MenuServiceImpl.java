@@ -85,7 +85,7 @@ public class MenuServiceImpl extends BaseService<Menu> implements MenuService<Me
         int numberOfPages;
         try {
             Long numberOfRecords = menuDao.getAmount();
-            numberOfPages = (int) Math.ceil(numberOfRecords * 1.0 / recordsPerPage);
+            numberOfPages = (int) Math.ceil(numberOfRecords / recordsPerPage);
             log.info(numberOfPages);
             log.info(TRANSACTION_SUCCESS);
         } catch (DaoException e) {

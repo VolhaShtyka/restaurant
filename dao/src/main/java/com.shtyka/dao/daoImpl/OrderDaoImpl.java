@@ -18,41 +18,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class OrderDaoImpl extends BaseDao<Order> implements OrderDao<Order>{
+public class OrderDaoImpl extends BaseDao<Order> implements OrderDao<Order> {
 
-    private static Logger log = Logger.getLogger(OrderDaoImpl.class);
-    private static final String HQL_SELECT_ALL_MEALNAME = "FROM Order WHERE clientId= :id";
+	private static Logger log = Logger.getLogger(OrderDaoImpl.class);
+	private static final String HQL_SELECT_ALL_MEALNAME = "FROM Order WHERE clientId= :id";
 
-    @Autowired
-    public OrderDaoImpl (SessionFactory sessionFactory){
-        super(sessionFactory);
-    }
+	@Autowired
+	public OrderDaoImpl(SessionFactory sessionFactory) {
+		super(sessionFactory);
+	}
 
-    @Override
-    public List<Order> findClientOrder(Integer id) throws DaoException {
-        List<Order> orders;
-        try {
-            Query query = getSession().createQuery(HQL_SELECT_ALL_MEALNAME);
-            query.setParameter("id", id);
-            orders = query.list();
-            log.info("FindClientOrder" +orders);
-        }catch (HibernateException e){
-            log.info("Error in DAO findEntityById");
-            throw new DaoException(e);
-        }
-        return orders;
-    }
+	@Override
+	public List<Order> findClientOrder(Integer id) throws DaoException {
+		List<Order> orders;
+		try {
+			Query query = getSession().createQuery(HQL_SELECT_ALL_MEALNAME);
+			query.setParameter("id", id);
+			orders = query.list();
+			log.info("FindClientOrder" + orders);
+		} catch (HibernateException e) {
+			log.info("Error in DAO findEntityById");
+			throw new DaoException(e);
+		}
+		return orders;
+	}
 
-    @Override
-    public Order createByMenu(Menu menu, User user) throws DaoException {
-        Order order = new Order();
-        List<Menu> menus = new ArrayList<>();
-        menus.add(menu);
-        order.setStatusOrder(StatusMeal.NOREADY.name());
-        order.setClientId(user.getId());
-        order.setMenuId(menu.getMenuId());
-        order.setMenus(menus);
-        getSession().saveOrUpdate(order);
-        return order;
-    }
+	@Override
+	public Order createByMenu(Menu menu, User user) throws DaoException {
+		Order order = new Order();
+		List<Menu> menus = new ArrayList<>();
+		menus.add(menu);
+		order.setStatusOrder(StatusMeal.NOREADY.name());
+		order.setClientId(user.getId());
+		order.setMenuId(menu.getMenuId());
+		order.setMenus(menus);
+		getSession().saveOrUpdate(order);
+		return order;
+	}
 }

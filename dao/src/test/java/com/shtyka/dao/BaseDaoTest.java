@@ -21,7 +21,7 @@ import static org.junit.Assert.assertNotNull;
 
 @Rollback
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/testContext.xml")
+@ContextConfiguration(locations = "/test-context.xml")
 @Transactional(transactionManager = "txManager", propagation = Propagation.SUPPORTS)
 public class BaseDaoTest {
 	User user = new User();

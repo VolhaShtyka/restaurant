@@ -1,5 +1,6 @@
 package com.shtyka.web.controllers;
 
+import com.shtyka.entity.Menu;
 import com.shtyka.entity.Order;
 import com.shtyka.entity.StatusMeal;
 import com.shtyka.entity.User;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,11 +42,10 @@ public class AdminController {
 		int currentPage = 1;
 		int recordsPerPage = 4;
 		int numberOfPages = 1;
-		//       final Logger log = Logger.getLogger(AdminCommand.class);
 		try {
 			List<Integer> sumClient = new ArrayList<>();
 			List<User> users = userService.findAll();
-			List<User> clients = new ArrayList<>(30);
+			List<User> clients = new ArrayList<>();
 			User admin = new User();
 			for (User user : users) {
 				if (user.getRoleId() != 1) {
@@ -69,11 +68,9 @@ public class AdminController {
 			model.addAttribute("users", clients);
 			session.setAttribute("sum", sumClient);
 		} catch (ServiceException e) {
-			//    log.info("Error Database.");
 			return ConfigurationManager.getProperty("path.page.errorDatabase");
-//			request.setAttribute("errorDatabase", MessageManager.getProperty("message.errorDatabase"));
 		}
-		return "admin/resultAdmin";
+		return "admins/resultAdmin";
 	}
 
 
@@ -82,7 +79,6 @@ public class AdminController {
 										  @RequestParam(value = "currentPage", defaultValue = "1", required = false) int currentPage,
 										  @RequestParam(value = "recordsPerPage", defaultValue = "4", required = false) int recordsPerPage,
 										  @RequestParam(value = "upOrDown") String parameterSort) throws ServiceException {
-	//	int numberOfPages;
 		Integer minFilterPrice;
 		Integer maxFilterPrice;
 		Integer minFilterTableNumber;
@@ -95,7 +91,7 @@ public class AdminController {
 		}
 
 		if (session.getAttribute("maxPrice") == null) {
-			maxFilterPrice = 1000; //magic number
+			maxFilterPrice = 1000;
 		}else{
 			maxFilterPrice =  (Integer)session.getAttribute("maxPrice");
 		}
@@ -112,7 +108,6 @@ public class AdminController {
 		}else{
 			maxFilterTableNumber =  (Integer)session.getAttribute("maxTableNumber");
 		}
-	//	numberOfPages = userService.getNumberPageWithFilter(minFilterPrice, maxFilterPrice, minFilterTableNumber, maxFilterTableNumber);
 		List<User> clients = userService.findAll(recordsPerPage, currentPage, minFilterPrice, maxFilterPrice, minFilterTableNumber, maxFilterTableNumber, parameterSort);
 		List<User> users = new ArrayList<>();
 		for (User user : clients) {
@@ -125,8 +120,7 @@ public class AdminController {
 		session.setAttribute("maxPrice", maxFilterPrice);
 		session.setAttribute("minTableNumber", minFilterTableNumber);
 		session.setAttribute("maxTableNumber", maxFilterTableNumber);
-
-		return "admin/resultAdmin";
+		return "admins/resultAdmin";
 	}
 
 
@@ -135,7 +129,7 @@ public class AdminController {
 		int sum = (Integer)session.getAttribute("sum");
 		double sumOrder = sum / 100 * 105;
 		model.addAttribute("sum", sumOrder);
-		return "admin/resultAdminDetails";
+		return "resultAdminDetails";
 	}
 
 
@@ -152,14 +146,13 @@ public class AdminController {
 		int numberOfPages = menuService.getNumberOfPages(recordsPerPage);
 		model.addAttribute("numberOfPages", numberOfPages);
 		model.addAttribute("users", clients);
-		return "admin/resultAdmin";
+		return "admins/resultAdmin";
 	}
 
 	@RequestMapping(value = "/clientDetails", method = RequestMethod.GET)
 	public String getDetailsAboutClient(ModelMap model, @RequestParam(value = "user") String userName,
 										@ModelAttribute("comment") String comment,
 										HttpSession session) throws ServiceException {
-//        final Logger log = Logger.getLogger(ClientDetailsCommand.class);
 		int sum = 0;
 		try {
 			User user = (User) userService.findByLogin(userName);
@@ -167,7 +160,7 @@ public class AdminController {
 			for (int i = 0; i < orders.size(); i++) {
 				sum += userService.countOrder(user);
 			}
-			model.addAttribute("user", user);
+			session.setAttribute("user", user.getName());
 			model.addAttribute("orders", orders);
 			session.setAttribute("sum", sum);
 			model.addAttribute("userid", user.getId());
@@ -175,11 +168,10 @@ public class AdminController {
 				model.addAttribute("comment", comment);
 			}
 		} catch (ServiceException e) {
-			//log.info("Error Database.");
-			return ConfigurationManager.getProperty("path.page.errorDatabase");
-//			request.setAttribute("errorDatabase", MessageManager.getProperty("message.errorDatabase"));
+			model.addAttribute("errorCookingMessage", MessageManager.getProperty("message.cookingerror"));
+			return "resultAdminDetails";
 		}
-		return "admin/resultAdminDetails";
+		return "resultAdminDetails";
 	}
 
 
@@ -191,10 +183,7 @@ public class AdminController {
 										  @RequestParam(value = "currentPage", defaultValue = "1", required = false) int currentPage,
 										  @RequestParam(value = "recordsPerPage", defaultValue = "4", required = false) int recordsPerPage,
 										  HttpSession session) throws ServiceException {
-		int numberOfPages;
-//		Integer ASC = (Integer) requestContent.getAttribute("maxPrice");
-//      Integer DESC = (Integer) requestContent.getAttribute("maxPrice");
-		numberOfPages = userService.getNumberPageWithFilter(minFilterPrice, maxFilterPrice, minFilterTableNumber, maxFilterTableNumber);
+		int numberOfPages = userService.getNumberPageWithFilter(minFilterPrice, maxFilterPrice, minFilterTableNumber, maxFilterTableNumber);
 		List<User> clients = userService.findAll(recordsPerPage, currentPage, minFilterPrice, maxFilterPrice, minFilterTableNumber, maxFilterTableNumber, "");
 		List<User> users = new ArrayList<>();
 		for (User user : clients) {
@@ -207,17 +196,14 @@ public class AdminController {
 		session.setAttribute("maxPrice", maxFilterPrice);
 		session.setAttribute("minTableNumber", minFilterTableNumber);
 		session.setAttribute("maxTableNumber", maxFilterTableNumber);
-		return "admin/resultAdmin";
+		return "admins/resultAdmin";
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String deleteClient(Model model) throws ServiceException {
-		Serializable id = (Serializable) model.addAttribute("userid");
-		User administatortDAO = (User) userService.get(id);
-		userService.delete(administatortDAO.getId());
-//        model..removeAttribute("users");
-//        requestContent.removeAttribute("orders");
-		return "admin/resultAdmin";
+	public String deleteClient(HttpSession session, @ModelAttribute("user") User user) throws ServiceException {
+		userService.delete(user.getId());
+		session.removeAttribute("user");
+		return "admins/resultAdmin";
 	}
 
 
@@ -229,7 +215,7 @@ public class AdminController {
 		for (Order order1 : orders) {
 			if (order1.getStatusOrder().equals(StatusMeal.CHEKED.name())) {
 				model.addAttribute("errorCookingMessage", MessageManager.getProperty("message.cookingerror"));
-				page = "admin/resultAdminDetails";
+				page = "resultAdminDetails";
 			} else {
 				order1.setStatusOrder(StatusMeal.READY.name());
 				orderService.saveOrUpdate(order1);
@@ -255,13 +241,24 @@ public class AdminController {
 		}
 		orders = orderService.findClientOrder(clients.get(0).getId());
 		model.addAttribute("orders", orders);
-		//model.addAttribute("sum", "");
-		return "admin/resultAdmin";
+		return "admins/resultAdmin";
 	}
 
 	@RequestMapping(value = "/newMenu", method = RequestMethod.GET)
-	public String createNewMenu() {
-		return "admin/createMenu";
+	public String createNewMenu( @RequestParam(value = "mealNameNewRU", required = false) String mealNameNewRU,
+								 @RequestParam(value = "mealNameNewEN", required = false) String mealNameNewEN,
+								 @RequestParam(value = "priceNew", required = false) Integer priceNew,
+								 @RequestParam(value = "weightNew", required = false) Integer weightNew) throws ServiceException {
+		if(mealNameNewEN != null && mealNameNewRU != null && priceNew != null && weightNew != null){
+			Menu menu = new Menu();
+			menu.setNameen(mealNameNewEN);
+			menu.setMealName(mealNameNewRU);
+			menu.setWeight(weightNew);
+			menu.setPrice(priceNew);
+			menuService.saveOrUpdate(menu);
+		}
+
+		return "createMenu";
 	}
 
 	@RequestMapping(value = "/discount", method = RequestMethod.GET)
@@ -269,11 +266,11 @@ public class AdminController {
 		int sum = (Integer) session.getAttribute("sum");
 		double sumOrder = sum / 100 * 85;
 		model.addAttribute("sum", sumOrder);
-		return "admin/resultAdminDetails";
+		return "resultAdminDetails";
 	}
 
 	@RequestMapping(value = "/moreInfo", method = RequestMethod.GET)
 	public String getMoreInfo() {
-		return "admin/moreInfo";
+		return "moreInfo";
 	}
 }
